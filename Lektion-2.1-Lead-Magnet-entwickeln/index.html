@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead-Magnet erstellen - Modul 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .pdf-button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .pdf-export-btn {
+            padding: 15px 30px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .pdf-export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 161, 105, 0.4);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .trigger-box {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid white;
+        }
+
+        .trigger-sentence {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .goal-text {
+            font-style: normal;
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .step-section {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .step-section:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.1);
+        }
+
+        .step-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .problem-section { border-left: 5px solid #e53e3e; }
+        .format-section { border-left: 5px solid #3182ce; }
+        .title-section { border-left: 5px solid #805ad5; }
+        .structure-section { border-left: 5px solid #38a169; }
+        .killer-section { border-left: 5px solid #d69e2e; }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            margin: 20px 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .checkbox-item:hover {
+            background-color: #f7fafc;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .field-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a5568;
+            display: block;
+        }
+
+        .formula-box {
+            background: #edf2f7;
+            border: 2px dashed #a0aec0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #4a5568;
+        }
+
+        .example-text {
+            color: #38a169;
+            font-weight: 500;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+
+        .killer-box {
+            background: #fff5f5;
+            border: 2px solid #e53e3e;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .killer-title {
+            color: #e53e3e;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .killer-bad {
+            color: #c53030;
+            font-weight: 600;
+        }
+
+        .killer-good {
+            color: #38a169;
+            font-weight: 600;
+        }
+
+        .final-section {
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .numbered-list {
+            list-style: none;
+            counter-reset: list-counter;
+        }
+
+        .numbered-list li {
+            counter-increment: list-counter;
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .numbered-list li::before {
+            content: counter(list-counter) ".";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            @page {
+                margin: 0.5in;
+                size: A4;
+            }
+            
+            body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+                line-height: 1.6 !important;
+                color: #333 !important;
+            }
+            
+            .container {
+                background: white !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                max-width: none !important;
+                width: 100% !important;
+            }
+            
+            .header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                color: white !important;
+                padding: 30px 20px !important;
+                text-align: center !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .step-section {
+                background: #f7fafc !important;
+                border: 2px solid #e2e8f0 !important;
+                border-radius: 15px !important;
+                padding: 20px !important;
+                margin-bottom: 20px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .problem-section { border-left: 5px solid #e53e3e !important; }
+            .format-section { border-left: 5px solid #3182ce !important; }
+            .title-section { border-left: 5px solid #805ad5 !important; }
+            .structure-section { border-left: 5px solid #38a169 !important; }
+            .killer-section { border-left: 5px solid #d69e2e !important; }
+            
+            .trigger-box {
+                background: rgba(255,255,255,0.2) !important;
+                padding: 15px !important;
+                border-radius: 15px !important;
+                margin: 15px 0 !important;
+                border-left: 5px solid white !important;
+            }
+            
+            .step-number {
+                background: #667eea !important;
+                color: white !important;
+                border-radius: 50% !important;
+                width: 35px !important;
+                height: 35px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin-right: 15px !important;
+                font-weight: bold !important;
+            }
+            
+            .checkbox-item {
+                display: flex !important;
+                align-items: flex-start !important;
+                margin-bottom: 8px !important;
+                padding: 8px !important;
+                border-radius: 8px !important;
+                border: 1px solid #e2e8f0 !important;
+                background: white !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .formula-box {
+                background: #edf2f7 !important;
+                border: 2px dashed #a0aec0 !important;
+                border-radius: 8px !important;
+                padding: 10px !important;
+                margin: 10px 0 !important;
+                font-style: italic !important;
+                color: #4a5568 !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .killer-box {
+                background: #fff5f5 !important;
+                border: 2px solid #e53e3e !important;
+                border-radius: 10px !important;
+                padding: 15px !important;
+                margin-bottom: 15px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .final-section {
+                background: linear-gradient(135deg, #38a169 0%, #48bb78 100%) !important;
+                color: white !important;
+                padding: 20px !important;
+                border-radius: 15px !important;
+                text-align: center !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            /* Button verstecken */
+            .pdf-button-container {
+                display: none !important;
+            }
+            
+            /* Schrift und Farben */
+            .step-title {
+                color: #2d3748 !important;
+                font-weight: 600 !important;
+            }
+            
+            input, textarea {
+                border: 1px solid #333 !important;
+                background: white !important;
+                color: #000 !important;
+                font-size: 12pt !important;
+                padding: 5px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            /* Checkbox-Status anzeigen */
+            input[type="checkbox"]:checked::after {
+                content: "✓" !important;
+                color: #000 !important;
+                font-weight: bold !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PDF Container Start -->
+    <div id="meinFormular" class="container">
+        <div class="header">
+            <h1>🧲 Lead-Magnet erstellen</h1>
+            <p>Lektion 2.1: Der unwiderstehliche Lead-Magnet</p>
+            <p style="opacity: 0.8; font-size: 1em; margin-top: 5px;">Erstelle einen Lead-Magneten der wirklich konvertiert</p>
+            
+            <div class="trigger-box">
+                <div class="trigger-sentence">
+                    📝 Übung: Dein Lead-Magnet der wirklich konvertiert
+                </div>
+                <div class="goal-text">
+                    Entwickle einen Lead-Magneten, der deine Zielgruppe sofort anspricht und zu echten Interessenten macht.
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Schritt 1: Problem finden -->
+            <div class="step-section problem-section">
+                <h3 class="step-title">
+                    <div class="step-number">1</div>
+                    Das richtige Problem finden
+                </h3>
+                <p style="margin-bottom: 20px;"><strong>Nimm deine Zielgruppe aus 1.2 und frage:</strong></p>
+                <p style="margin-bottom: 15px; font-weight: 600;">Was ist ihr DRINGENDSTES Problem?</p>
+                <ul style="margin-bottom: 20px; padding-left: 20px;">
+                    <li>Nicht das größte - das dringendste</li>
+                    <li>Wofür würden sie HEUTE eine Lösung suchen?</li>
+                    <li>Was hält sie NACHTS wach?</li>
+                </ul>
+                
+                <div class="formula-box">
+                    <strong>🎯 Problem-Finder-Template:</strong>
+                </div>
+                
+                <label class="field-label">Meine Zielgruppe aus 1.2:</label>
+                <input type="text" id="zielgruppe" placeholder="z.B. Introvertierte Coaches, die sich schwer mit Marketing tun...">
+                
+                <label class="field-label">Ihre 3 dringendsten Probleme:</label>
+                <input type="text" id="problem1" placeholder="1. Problem eingeben...">
+                <input type="text" id="problem2" placeholder="2. Problem eingeben...">
+                <input type="text" id="problem3" placeholder="3. Problem eingeben...">
+                
+                <label class="field-label">Welches Problem googeln sie um 23 Uhr?</label>
+                <input type="text" id="googleproblem" placeholder="Das Problem, das sie nicht schlafen lässt...">
+                
+                <div style="background: #38a169; color: white; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; font-weight: 600;">
+                    Dieses Problem wird dein Lead-Magnet lösen!
+                </div>
+            </div>
+
+            <!-- Schritt 2: Format wählen -->
+            <div class="step-section format-section">
+                <h3 class="step-title">
+                    <div class="step-number">2</div>
+                    Das Format wählen
+                </h3>
+                <p style="margin-bottom: 20px;"><strong>Für dein Problem - welches Format passt am besten?</strong></p>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="format-checkliste">
+                        <label for="format-checkliste"><strong>Quick-Check benötigt:</strong> Checkliste oder Selbsttest</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="format-guide">
+                        <label for="format-guide"><strong>Komplexe Anleitung benötigt:</strong> Step-by-Step Guide</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="format-template">
+                        <label for="format-template"><strong>Vorlage/Template benötigt:</strong> Ausfüllbare Vorlage</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="format-fehler">
+                        <label for="format-fehler"><strong>Fehler vermeiden:</strong> "Häufige Fehler" Liste</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="format-rechner">
+                        <label for="format-rechner"><strong>Berechnung nötig:</strong> Rechner oder Tool</label>
+                    </div>
+                </div>
+                
+                <label class="field-label">🎯 Mein gewähltes Format:</label>
+                <input type="text" id="gewaehltes-format" placeholder="z.B. Checkliste, Guide, Template...">
+            </div>
+
+            <!-- Schritt 3: Titel erstellen -->
+            <div class="step-section title-section">
+                <h3 class="step-title">
+                    <div class="step-number">3</div>
+                    Den perfekten Titel erstellen
+                </h3>
+                
+                <div class="formula-box">
+                    <strong>Titel-Formel 1: Der Zeitbegrenzer</strong><br>
+                    "[ERGEBNIS] in [ZEIT] - [METHODE]"
+                    <div class="example-text">Beispiel: "Deine Positionierung in 20 Minuten - Die 3-Kreise-Methode"</div>
+                </div>
+                
+                <div class="formula-box">
+                    <strong>Titel-Formel 2: Der Insider</strong><br>
+                    "[ZAHL] [Geheimnisse/Wege/Strategien], die [ZIELGRUPPE] [ERGEBNIS] bringen"
+                    <div class="example-text">Beispiel: "7 LinkedIn-Nachrichten, die introvertierte Coaches zu Terminen führen"</div>
+                </div>
+                
+                <div class="formula-box">
+                    <strong>Titel-Formel 3: Der Fehler-Vermeider</strong><br>
+                    "Die [ZAHL] [Fehler/Fallen], die [ZIELGRUPPE] [NEGATIVES ERGEBNIS] kosten"
+                    <div class="example-text">Beispiel: "Die 5 Positionierungs-Fehler, die dich Kunden kosten"</div>
+                </div>
+                
+                <div class="formula-box">
+                    <strong>Titel-Formel 4: Der Tool-Geber</strong><br>
+                    "[TOOL-NAME]: [WAS ES MACHT] für [ZIELGRUPPE]"
+                    <div class="example-text">Beispiel: "Positionierungs-Check: Ist deine Nische kundengewinnend?"</div>
+                </div>
+                
+                <label class="field-label">🎯 Meine 3 Titel-Optionen:</label>
+                <input type="text" id="titel1" placeholder="1. Titel-Option eingeben...">
+                <input type="text" id="titel2" placeholder="2. Titel-Option eingeben...">
+                <input type="text" id="titel3" placeholder="3. Titel-Option eingeben...">
+                
+                <label class="field-label">Gewählter Titel:</label>
+                <input type="text" id="finaler-titel" placeholder="Dein finaler Lead-Magnet-Titel...">
+            </div>
+
+            <!-- Schritt 4: Inhalt strukturieren -->
+            <div class="step-section structure-section">
+                <h3 class="step-title">
+                    <div class="step-number">4</div>
+                    Den Inhalt strukturieren
+                </h3>
+                
+                <div class="formula-box">
+                    <strong>Lead-Magnet-Struktur (funktioniert immer):</strong><br><br>
+                    <strong>Seite 1: Das Problem</strong><br>
+                    • "Du kennst das Problem..."<br>
+                    • Kurz das Problem beschreiben<br>
+                    • "Hier ist die Lösung:"<br><br>
+                    
+                    <strong>Seite 2-4: Die Lösung</strong><br>
+                    • Schritt-für-Schritt ODER<br>
+                    • Checkliste ODER<br>
+                    • Template zum Ausfüllen<br><br>
+                    
+                    <strong>Seite 5: Der nächste Schritt</strong><br>
+                    • "Das war erst der Anfang"<br>
+                    • "Wenn du mehr willst..."<br>
+                    • Call-to-Action zu deinem Angebot
+                </div>
+                
+                <label class="field-label">🎯 Meine Inhalt-Struktur:</label>
+                
+                <label class="field-label">Problem:</label>
+                <textarea id="inhalt-problem" placeholder="Beschreibe das Problem, das dein Lead-Magnet löst..."></textarea>
+                
+                <label class="field-label">Lösung (3-5 Punkte):</label>
+                <input type="text" id="loesung1" placeholder="1. Lösungsschritt...">
+                <input type="text" id="loesung2" placeholder="2. Lösungsschritt...">
+                <input type="text" id="loesung3" placeholder="3. Lösungsschritt...">
+                <input type="text" id="loesung4" placeholder="4. Lösungsschritt (optional)...">
+                <input type="text" id="loesung5" placeholder="5. Lösungsschritt (optional)...">
+                
+                <label class="field-label">Call-to-Action:</label>
+                <textarea id="cta" placeholder="Was soll nach dem Lead-Magnet passieren? z.B. Terminbuchung, Erstgespräch..."></textarea>
+            </div>
+
+            <!-- Lead-Magnet-Killer -->
+            <div class="step-section killer-section">
+                <h3 class="step-title">🚨 Die größten Lead-Magnet-Killer</h3>
+                
+                <div class="killer-box">
+                    <div class="killer-title">❌ Killer 1: Zu umfangreich</div>
+                    <div class="killer-bad">Schlecht: "50-seitiges E-Book über alles"</div>
+                    <div class="killer-good">Besser: "3-seitige Checkliste für EINE Sache"</div>
+                </div>
+                
+                <div class="killer-box">
+                    <div class="killer-title">❌ Killer 2: Zu allgemein</div>
+                    <div class="killer-bad">Schlecht: "Tipps für mehr Erfolg"</div>
+                    <div class="killer-good">Besser: "5-Minuten-Check: Ist deine LinkedIn-Headline kundengewinnend?"</div>
+                </div>
+                
+                <div class="killer-box">
+                    <div class="killer-title">❌ Killer 3: Nicht sofort umsetzbar</div>
+                    <div class="killer-bad">Schlecht: "Die Philosophie des erfolgreichen Coachings"</div>
+                    <div class="killer-good">Besser: "Das E-Mail-Template für deine erste Kundenanfrage"</div>
+                </div>
+                
+                <div class="killer-box">
+                    <div class="killer-title">❌ Killer 4: Langweiliges Design</div>
+                    <div class="killer-bad">Schlecht: Word-Dokument ohne Formatierung</div>
+                    <div class="killer-good">Besser: Canva-Design mit deinen Farben</div>
+                </div>
+                
+                <div class="killer-box">
+                    <div class="killer-title">❌ Killer 5: Schwacher CTA</div>
+                    <div class="killer-bad">Schlecht: "Folge mir für mehr Tipps"</div>
+                    <div class="killer-good">Besser: "Bereit für Schritt 2? Buche hier dein kostenloses Strategiegespräch"</div>
+                </div>
+                
+                <div class="checkbox-group" style="margin-top: 20px;">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="killer-check">
+                        <label for="killer-check">✅ Ich habe alle Killer-Fehler vermieden</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Abschluss -->
+            <div class="final-section">
+                <h3 style="margin-bottom: 15px;">🚀 Dein Lead-Magnet ist bereit!</h3>
+                <p style="margin-bottom: 20px;">Du hast jetzt alle Bausteine für einen Lead-Magneten, der wirklich konvertiert.</p>
+                <p><strong>Nächster Schritt:</strong> Design erstellen und Landing Page aufbauen</p>
+            </div>
+
+            <!-- Weiter-Text -->
+            <div style="background: #e6fffa; border: 2px solid #38b2ac; border-radius: 15px; padding: 25px; margin: 30px 0; text-align: center;">
+                <p style="font-size: 1.2em; color: #2c7a7b; font-weight: 600;">
+                    🚀 Weiter geht's in Lektion 2.2: Content-Strategie für Leads – wir sehen uns drüben!
+                </p>
+            </div>
+
+            <!-- PDF Export Button -->
+            <div class="pdf-button-container">
+                <button onclick="downloadPDF()" class="pdf-export-btn">
+                    🖨️ Als PDF drucken/speichern
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- PDF Container Ende -->
+
+    <!-- PDF Export Scripts -->
+    <script>
+        function downloadPDF() {
+            // Button-Feedback während PDF erstellt wird
+            const button = document.querySelector('.pdf-export-btn');
+            const originalText = button.innerHTML;
+            button.innerHTML = '⏳ PDF wird vorbereitet...';
+            button.disabled = true;
+
+            // CSS für PDF temporär hinzufügen
+            const printStyle = document.createElement('style');
+            printStyle.textContent = `
+                @page {
+                    margin: 0.5in;
+                    size: A4;
+                }
+                @media print {
+                    body { 
+                        margin: 0 !important; 
+                        padding: 0 !important;
+                        background: white !important;
+                    }
+                    .container {
+                        box-shadow: none !important;
+                        margin: 0 !important;
+                        border-radius: 0 !important;
+                    }
+                    .pdf-button-container {
+                        display: none !important;
+                    }
+                    /* Eingabewerte in PDF sichtbar machen */
+                    input[type="text"], textarea {
+                        border: 1px solid #333 !important;
+                        background: white !important;
+                        color: #000 !important;
+                        font-size: 12pt !important;
+                        padding: 5px !important;
+                        margin-bottom: 10px !important;
+                    }
+                    /* Checkbox-Status anzeigen */
+                    input[type="checkbox"]:checked::after {
+                        content: "✓" !important;
+                        color: #000 !important;
+                        font-weight: bold !important;
+                    }
+                }
+            `;
+            document.head.appendChild(printStyle);
+            
+            // Kurz warten, dann Print Dialog öffnen
+            setTimeout(() => {
+                window.print();
+                
+                // Style nach dem Drucken wieder entfernen
+                setTimeout(() => {
+                    document.head.removeChild(printStyle);
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 1000);
+            }, 500);
+        }
+
+        // Automatisches Speichern der Eingaben im Browser (Local Storage)
+        function saveData() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.type === 'checkbox') {
+                    localStorage.setItem(input.id, input.checked);
+                } else {
+                    localStorage.setItem(input.id, input.value);
+                }
+            });
+        }
+
+        function loadData() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.type === 'checkbox') {
+                    const saved = localStorage.getItem(input.id);
+                    if (saved !== null) {
+                        input.checked = saved === 'true';
+                    }
+                } else {
+                    const saved = localStorage.getItem(input.id);
+                    if (saved !== null) {
+                        input.value = saved;
+                    }
+                }
+            });
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const totalFields = document.querySelectorAll('input[type="text"], textarea').length;
+            const filledFields = Array.from(document.querySelectorAll('input[type="text"], textarea')).filter(field => field.value.trim() !== '').length;
+            const totalCheckboxes = document.querySelectorAll('input[type="checkbox"]').length;
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            
+            const totalItems = totalFields + totalCheckboxes;
+            const completedItems = filledFields + checkedBoxes;
+            const progress = (completedItems / totalItems) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            
+            const allInputs = document.querySelectorAll('input, textarea');
+            allInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    updateProgress();
+                    saveData();
+                });
+                input.addEventListener('change', () => {
+                    updateProgress();
+                    saveData();
+                });
+            });
+            
+            // Initial progress calculation
+            updateProgress();
+        });
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    </script>
+</body>
+</html>
