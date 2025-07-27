@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktive Positionierungs-Werkstatt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .pdf-button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .pdf-export-btn {
+            padding: 15px 30px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .pdf-export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 161, 105, 0.4);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .problem-section {
+            background: #fff5f5;
+            border-left: 5px solid #e53e3e;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        .solution-section {
+            background: #f0fff4;
+            border-left: 5px solid #38a169;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        .circle-section {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .circle-section:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.1);
+        }
+
+        .circle-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+
+        .circle-1 { border-left-color: #e53e3e; }
+        .circle-2 { border-left-color: #3182ce; }
+        .circle-3 { border-left-color: #d69e2e; }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            margin: 20px 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .checkbox-item:hover {
+            background-color: #f7fafc;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .template-box {
+            background: #edf2f7;
+            border: 2px dashed #a0aec0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #4a5568;
+        }
+
+        .example-box {
+            background: #e6fffa;
+            border-left: 4px solid #38b2ac;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .error-box {
+            background: #fed7d7;
+            border-left: 4px solid #e53e3e;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .next-steps {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .section-emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .save-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .save-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            @page {
+                margin: 0.5in;
+                size: A4;
+            }
+            
+            body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+                line-height: 1.6 !important;
+                color: #333 !important;
+            }
+            
+            .container {
+                background: white !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                max-width: none !important;
+                width: 100% !important;
+            }
+            
+            .header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                color: white !important;
+                padding: 30px 20px !important;
+                text-align: center !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .circle-section {
+                background: #f7fafc !important;
+                border: 2px solid #e2e8f0 !important;
+                border-radius: 15px !important;
+                padding: 20px !important;
+                margin-bottom: 20px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .solution-section {
+                background: #f0fff4 !important;
+                border-left: 5px solid #38a169 !important;
+                padding: 20px !important;
+                margin-bottom: 20px !important;
+                border-radius: 10px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .error-box {
+                background: #fed7d7 !important;
+                border-left: 4px solid #e53e3e !important;
+                padding: 15px !important;
+                margin: 15px 0 !important;
+                border-radius: 5px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .next-steps {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                color: white !important;
+                padding: 20px !important;
+                border-radius: 15px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .checkbox-item {
+                display: flex !important;
+                align-items: center !important;
+                margin-bottom: 8px !important;
+                padding: 8px !important;
+                border-radius: 8px !important;
+                background: white !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .template-box {
+                background: #edf2f7 !important;
+                border: 2px dashed #a0aec0 !important;
+                border-radius: 10px !important;
+                padding: 15px !important;
+                margin: 15px 0 !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .example-box {
+                background: #e6fffa !important;
+                border-left: 4px solid #38b2ac !important;
+                padding: 15px !important;
+                margin: 15px 0 !important;
+                border-radius: 5px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            /* Farbige Seitenbalken erhalten */
+            .circle-1 { border-left-color: #e53e3e !important; }
+            .circle-2 { border-left-color: #3182ce !important; }
+            .circle-3 { border-left-color: #d69e2e !important; }
+            
+            /* Button verstecken */
+            .pdf-button-container {
+                display: none !important;
+            }
+            
+            /* Schrift und Farben */
+            .circle-title {
+                color: #2d3748 !important;
+                font-weight: 600 !important;
+            }
+            
+            input, textarea {
+                border: 2px solid #e2e8f0 !important;
+                background: white !important;
+                color: #333 !important;
+                padding: 8px 12px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PDF Container Start -->
+    <div id="meinFormular" class="container">
+        <div class="header">
+            <h1>🎯 Deine Positionierungs-Werkstatt</h1>
+            <p>Lektion 1.1: Deine Unique Positionierung finden</p>
+            <p style="opacity: 0.8; font-size: 1em; margin-top: 5px;">Finde deine einzigartige Position im Markt</p>
+            
+            <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 15px; margin: 20px 0; border-left: 5px solid white;">
+                <div style="font-size: 1.3em; font-weight: bold; margin-bottom: 15px;">
+                    📝 Übung: Deine Positionierung schärfen
+                </div>
+                <div style="font-style: normal; opacity: 0.9; font-size: 0.95em; margin-bottom: 10px;">
+                    Werde jetzt konkret: Was bietest du an – und für wen genau?<br>
+                    Fülle die folgenden Felder aus, um dein Angebot so klar, spitz und wirkungsvoll zu formulieren, dass potenzielle Kunden sofort sagen: 👉 „Das bin ich – genau das brauche ich!"
+                </div>
+                <div style="font-style: italic; opacity: 0.8; font-size: 0.85em; margin-top: 15px;">
+                    💡 <strong>Tipp:</strong> Vermeide allgemeine Aussagen wie „Ich helfe Menschen beim Erfolg". Je spitzer du bist, desto stärker ist deine Wirkung im Markt.
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Solution Section -->
+            <div class="solution-section">
+                <h2><span class="section-emoji">🚀</span>Warum Spezialisierung funktioniert:</h2>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="benefit1">
+                        <label for="benefit1">Höhere Preise - Experten können mehr verlangen</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="benefit2">
+                        <label for="benefit2">Bessere Leads - Zielgruppe findet dich gezielter</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="benefit3">
+                        <label for="benefit3">Weniger Konkurrenz - Statt 10.000 nur noch 100</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="benefit4">
+                        <label for="benefit4">Mehr Vertrauen - "Der ist DER Experte dafür"</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="benefit5">
+                        <label for="benefit5">Klarere Kommunikation - Jeder versteht sofort, was du machst</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Circle 1: Superkraft -->
+            <div class="circle-section circle-1">
+                <h3 class="circle-title"><span class="section-emoji">💡</span>Kreis 1: Deine Superkraft – Was kannst du besonders gut?</h3>
+                <p style="margin-bottom: 20px;"><strong>Fragen zur Reflexion:</strong></p>
+                <ul style="margin-bottom: 20px; padding-left: 20px;">
+                    <li>Was fällt dir leichter als anderen?</li>
+                    <li>Wofür kommen Menschen zu dir um Rat?</li>
+                    <li>Was machst du anders als andere?</li>
+                    <li>Welche Ergebnisse erzielst du besonders gut?</li>
+                </ul>
+                <p style="margin-bottom: 15px; font-weight: 600;">Meine Superkräfte:</p>
+                <input type="text" id="superkraft1" placeholder="z.B. Verkaufen ohne Verkaufsdruck">
+                <input type="text" id="superkraft2" placeholder="z.B. Komplexe Themen einfach erklären">
+                <input type="text" id="superkraft3" placeholder="z.B. Teams zur Höchstleistung motivieren">
+            </div>
+
+            <!-- Circle 2: Marktbedarf -->
+            <div class="circle-section circle-2">
+                <h3 class="circle-title"><span class="section-emoji">📊</span>Kreis 2: Marktbedarf – Was braucht der Markt wirklich?</h3>
+                <p style="margin-bottom: 20px;"><strong>Fragen zur Reflexion:</strong></p>
+                <ul style="margin-bottom: 20px; padding-left: 20px;">
+                    <li>Welche Probleme hörst du immer wieder?</li>
+                    <li>Wofür geben Menschen Geld aus?</li>
+                    <li>Welche Trends erkennst du?</li>
+                </ul>
+                <p style="margin-bottom: 15px; font-weight: 600;">Marktbedarf, den ich erkenne:</p>
+                <input type="text" id="marktbedarf1" placeholder="z.B. Kundengewinnung ohne Kaltakquise">
+                <input type="text" id="marktbedarf2" placeholder="z.B. Mitarbeitermangel lösen">
+                <input type="text" id="marktbedarf3" placeholder="z.B. Work-Life-Balance für Führungskräfte">
+            </div>
+
+            <!-- Circle 3: Leidenschaft -->
+            <div class="circle-section circle-3">
+                <h3 class="circle-title"><span class="section-emoji">🔥</span>Kreis 3: Deine Leidenschaft – Was treibt dich an?</h3>
+                <p style="margin-bottom: 20px;"><strong>Fragen zur Reflexion:</strong></p>
+                <ul style="margin-bottom: 20px; padding-left: 20px;">
+                    <li>Wofür brennst du?</li>
+                    <li>Was würdest du auch ohne Geld tun?</li>
+                    <li>Wofür willst du bekannt sein?</li>
+                </ul>
+                <p style="margin-bottom: 15px; font-weight: 600;">Meine Leidenschaft:</p>
+                <input type="text" id="leidenschaft1" placeholder="z.B. Authentisches Marketing">
+                <input type="text" id="leidenschaft2" placeholder="z.B. Nachhaltige Unternehmensführung">
+                <input type="text" id="leidenschaft3" placeholder="z.B. Persönlichkeitsentwicklung">
+            </div>
+
+            <!-- Nische ableiten -->
+            <div class="circle-section">
+                <h3 class="circle-title"><span class="section-emoji">🔍</span>Schritt 2: Finde die Überschneidung deiner Kreise</h3>
+                <p style="margin-bottom: 15px; font-weight: 600;">Meine Nische ist:</p>
+                <textarea id="nische" placeholder="Beschreibe hier die Überschneidung deiner drei Kreise..."></textarea>
+            </div>
+
+            <!-- Positionierungs-Statement -->
+            <div class="circle-section">
+                <h3 class="circle-title"><span class="section-emoji">📝</span>Schritt 3: Formuliere dein Statement</h3>
+                <div class="template-box">
+                    <strong>Vorlage:</strong> "Ich helfe [ZIELGRUPPE] dabei, [ERGEBNIS] zu erreichen – ohne [PROBLEM]"
+                </div>
+                <div class="example-box">
+                    <strong>Beispiel:</strong> "Ich helfe Coaches dabei, Kunden zu gewinnen – ohne aufdringliche Verkaufstaktiken"
+                </div>
+                <p style="margin-bottom: 15px; font-weight: 600;">Mein Positionierungs-Statement:</p>
+                <textarea id="statement" placeholder="Formuliere hier dein Statement..."></textarea>
+            </div>
+
+            <!-- Checkliste -->
+            <div class="circle-section">
+                <h3 class="circle-title"><span class="section-emoji">✅</span>Schritt 4: Überprüfe dein Statement</h3>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check1">
+                        <label for="check1">Ist es spezifisch genug?</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check2">
+                        <label for="check2">Unterscheidet es mich von anderen?</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check3">
+                        <label for="check3">Versteht es jeder sofort?</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check4">
+                        <label for="check4">Löst es ein echtes Problem?</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check5">
+                        <label for="check5">Bin ich leidenschaftlich dabei?</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Praxis-Test -->
+            <div class="circle-section">
+                <h3 class="circle-title"><span class="section-emoji">👥</span>Praxistest: Erkläre dein Statement 5 Personen</h3>
+                <p style="margin-bottom: 15px;">Was hast du gelernt? Notiere hier das Feedback:</p>
+                <textarea id="feedback" placeholder="Person 1: ...&#10;Person 2: ...&#10;Person 3: ...&#10;Erkenntnisse: ..."></textarea>
+            </div>
+
+            <!-- Fehler vermeiden -->
+            <div class="error-box">
+                <h3><span class="section-emoji">❌</span>Häufige Fehler vermeiden:</h3>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li><strong>Zu breit:</strong> "Ich helfe bei allen Business-Problemen"</li>
+                    <li><strong>Nur Methode:</strong> "Ich biete NLP-Coaching"</li>
+                    <li><strong>Keine Abgrenzung:</strong> "Ich helfe beim Verkaufen"</li>
+                </ul>
+                <p><strong>Besser:</strong></p>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li>"Ich helfe Teams dabei, besser zusammenzuarbeiten"</li>
+                    <li>"Ich helfe introvertierten Unternehmern beim Verkaufen"</li>
+                </ul>
+            </div>
+
+            <!-- Nächste Schritte -->
+            <div class="next-steps">
+                <h3><span class="section-emoji">🎯</span>Nächste Schritte</h3>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="step1">
+                        <label for="step1">Statement 5x erzählen</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="step2">
+                        <label for="step2">Feedback einholen</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="step3">
+                        <label for="step3">Anpassen & verfeinern</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="step4">
+                        <label for="step4">Auf Webseite & LinkedIn integrieren</label>
+                    </div>
+                </div>
+                <p style="margin: 20px 0 15px 0; font-weight: 600;">💬 Erkenntnisse / Anpassungen:</p>
+                <textarea id="erkenntnisse" placeholder="Was sind deine wichtigsten Erkenntnisse und Anpassungen?"></textarea>
+            </div>
+
+            <!-- Zusammenfassung -->
+            <div style="background: #f7fafc; padding: 30px; border-radius: 15px; margin-top: 30px; text-align: center;">
+                <h3><span class="section-emoji"></span>Zusammenfassung</h3>
+                <ul style="list-style: none; padding: 0; margin: 20px 0;">
+                    <li>✅ Positionierung ist der Startpunkt für deinen Erfolg</li>
+                    <li>✅ Die 3-Kreise-Methode gibt dir Klarheit</li>
+                    <li>✅ Teste dein Statement – und nutze es überall!</li>
+                </ul>
+                <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                    <strong>👉 Nächste Lektion:</strong> Zielgruppe präzise definieren – Vom "Jeder" zum "Idealkunden"
+                </div>
+            </div>
+
+            <!-- PDF Export Button -->
+            <div class="pdf-button-container">
+                <button onclick="downloadPDF()" class="pdf-export-btn">
+                    🖨️ Als PDF drucken/speichern
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- PDF Container Ende -->
+
+    <!-- PDF Export Scripts -->
+    <script>
+        function downloadPDF() {
+            // Button-Feedback während PDF erstellt wird
+            const button = document.querySelector('.pdf-export-btn');
+            const originalText = button.innerHTML;
+            button.innerHTML = '⏳ PDF wird vorbereitet...';
+            button.disabled = true;
+
+            // CSS für PDF temporär hinzufügen
+            const printStyle = document.createElement('style');
+            printStyle.textContent = `
+                @page {
+                    margin: 0.5in;
+                    size: A4;
+                }
+                @media print {
+                    body { 
+                        margin: 0 !important; 
+                        padding: 0 !important;
+                        background: white !important;
+                    }
+                    .container {
+                        box-shadow: none !important;
+                        margin: 0 !important;
+                        border-radius: 0 !important;
+                    }
+                    .pdf-button-container {
+                        display: none !important;
+                    }
+                    /* Eingabewerte in PDF sichtbar machen */
+                    input[type="text"], textarea {
+                        border: 1px solid #333 !important;
+                        background: white !important;
+                        color: #000 !important;
+                        font-size: 12pt !important;
+                        padding: 5px !important;
+                        margin-bottom: 10px !important;
+                    }
+                    /* Checkbox-Status anzeigen */
+                    input[type="checkbox"]:checked::after {
+                        content: "✓" !important;
+                        color: #000 !important;
+                        font-weight: bold !important;
+                    }
+                }
+            `;
+            document.head.appendChild(printStyle);
+            
+            // Kurz warten, dann Print Dialog öffnen
+            setTimeout(() => {
+                window.print();
+                
+                // Style nach dem Drucken wieder entfernen
+                setTimeout(() => {
+                    document.head.removeChild(printStyle);
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 1000);
+            }, 500);
+        }
+
+        // Automatisches Speichern der Eingaben im Browser (Local Storage)
+        function saveData() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.type === 'checkbox' || input.type === 'radio') {
+                    localStorage.setItem(input.id || input.name, input.checked);
+                } else {
+                    localStorage.setItem(input.id, input.value);
+                }
+            });
+        }
+
+        function loadData() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                const saved = localStorage.getItem(input.id || input.name);
+                if (saved !== null) {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        input.checked = saved === 'true';
+                    } else {
+                        input.value = saved;
+                    }
+                }
+            });
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const totalFields = document.querySelectorAll('input[type="text"], textarea').length;
+            const filledFields = Array.from(document.querySelectorAll('input[type="text"], textarea')).filter(field => field.value.trim() !== '').length;
+            const totalCheckboxes = document.querySelectorAll('input[type="checkbox"]').length;
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            
+            const totalItems = totalFields + totalCheckboxes;
+            const completedItems = filledFields + checkedBoxes;
+            const progress = (completedItems / totalItems) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            
+            const allInputs = document.querySelectorAll('input, textarea');
+            allInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    updateProgress();
+                    saveData();
+                });
+                input.addEventListener('change', () => {
+                    updateProgress();
+                    saveData();
+                });
+            });
+            
+            // Initial progress calculation
+            updateProgress();
+        });
+
+        // Add smooth scrolling for better UX
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    </script>
+</body>
+</html>
