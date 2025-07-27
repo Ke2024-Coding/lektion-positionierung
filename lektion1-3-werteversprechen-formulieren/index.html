@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wertversprechen formulieren - Lektion 1.3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .pdf-button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .pdf-export-btn {
+            padding: 15px 30px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .pdf-export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 161, 105, 0.4);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .trigger-box {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid white;
+        }
+
+        .trigger-sentence {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .goal-text {
+            font-style: normal;
+            opacity: 0.9;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .step-section {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .step-section:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.1);
+        }
+
+        .step-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .blue-section { border-left: 5px solid #3182ce; }
+        .purple-section { border-left: 5px solid #805ad5; }
+        .yellow-section { border-left: 5px solid #d69e2e; }
+        .green-section { border-left: 5px solid #38a169; }
+        .red-section { border-left: 5px solid #e53e3e; }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            margin: 20px 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .checkbox-item:hover {
+            background-color: #f7fafc;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .field-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a5568;
+            display: block;
+        }
+
+        .example-text {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .formula-box {
+            background: #edf2f7;
+            border: 2px dashed #a0aec0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #4a5568;
+        }
+
+        .reminder-box {
+            background: #e6fffa;
+            border: 2px solid #38b2ac;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .reminder-box h4 {
+            color: #2c7a7b;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .reminder-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .reminder-box li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .reminder-box li:before {
+            content: "•";
+            color: #38b2ac;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .test-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .test-question {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .final-section {
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .final-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            @page {
+                margin: 0.5in;
+                size: A4;
+            }
+            
+            body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+                line-height: 1.6 !important;
+                color: #333 !important;
+            }
+            
+            .container {
+                background: white !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                max-width: none !important;
+                width: 100% !important;
+            }
+            
+            .header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                color: white !important;
+                padding: 30px 20px !important;
+                text-align: center !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .step-section {
+                background: #f7fafc !important;
+                border: 2px solid #e2e8f0 !important;
+                border-radius: 15px !important;
+                padding: 20px !important;
+                margin-bottom: 20px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .blue-section { border-left: 5px solid #3182ce !important; }
+            .purple-section { border-left: 5px solid #805ad5 !important; }
+            .yellow-section { border-left: 5px solid #d69e2e !important; }
+            .green-section { border-left: 5px solid #38a169 !important; }
+            .red-section { border-left: 5px solid #e53e3e !important; }
+            
+            .trigger-box {
+                background: rgba(255,255,255,0.2) !important;
+                padding: 15px !important;
+                border-radius: 15px !important;
+                margin: 15px 0 !important;
+                border-left: 5px solid white !important;
+            }
+            
+            .step-number {
+                background: #667eea !important;
+                color: white !important;
+                border-radius: 50% !important;
+                width: 35px !important;
+                height: 35px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin-right: 15px !important;
+                font-weight: bold !important;
+            }
+            
+            .checkbox-item {
+                display: flex !important;
+                align-items: flex-start !important;
+                margin-bottom: 8px !important;
+                padding: 8px !important;
+                border-radius: 8px !important;
+                border: 1px solid #e2e8f0 !important;
+                background: white !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .test-item {
+                background: white !important;
+                border: 1px solid #e2e8f0 !important;
+                border-radius: 8px !important;
+                padding: 10px !important;
+                margin-bottom: 10px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .formula-box {
+                background: #edf2f7 !important;
+                border: 2px dashed #a0aec0 !important;
+                border-radius: 8px !important;
+                padding: 10px !important;
+                margin: 10px 0 !important;
+                font-style: italic !important;
+                color: #4a5568 !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .reminder-box {
+                background: #e6fffa !important;
+                border: 2px solid #38b2ac !important;
+                border-radius: 10px !important;
+                padding: 15px !important;
+                margin: 15px 0 !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .final-section {
+                background: linear-gradient(135deg, #38a169 0%, #48bb78 100%) !important;
+                color: white !important;
+                padding: 20px !important;
+                border-radius: 15px !important;
+                text-align: center !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            /* Button verstecken */
+            .pdf-button-container {
+                display: none !important;
+            }
+            
+            /* Schrift und Farben */
+            .step-title {
+                color: #2d3748 !important;
+                font-weight: 600 !important;
+            }
+            
+            input, textarea {
+                border: 1px solid #333 !important;
+                background: white !important;
+                color: #000 !important;
+                font-size: 12pt !important;
+                padding: 5px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            /* Checkbox-Status anzeigen */
+            input[type="checkbox"]:checked::after {
+                content: "✓" !important;
+                color: #000 !important;
+                font-weight: bold !important;
+            }
+            
+            /* Radio Button Status anzeigen */
+            input[type="radio"]:checked::after {
+                content: "●" !important;
+                color: #000 !important;
+                font-weight: bold !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PDF Container Start -->
+    <div id="meinFormular" class="container">
+        <div class="header">
+            <h1>🎯 Wertversprechen formulieren</h1>
+            <p>Lektion 1.3: Warum Kunden genau DICH wählen</p>
+            <p style="opacity: 0.8; font-size: 1em; margin-top: 5px;">Entwickle ein unwiderstehliches Wertversprechen</p>
+            
+            <div class="trigger-box">
+                <div class="trigger-sentence">
+                    📝 Übung: Dein unwiderstehliches Wertversprechen
+                </div>
+                <div class="goal-text">
+                    Entwickle ein Versprechen, das potenzielle Kunden sofort überzeugt und dich von allen anderen unterscheidet.
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- 1. Reality Check -->
+            <div class="step-section blue-section">
+                <h3 class="step-title">
+                    <div class="step-number">1</div>
+                    Was ein Wertversprechen NICHT ist
+                </h3>
+                <p style="margin-bottom: 20px;">Viele reden von „Positionierung" – aber was sie sagen, klingt austauschbar. Mach hier den ersten Check.</p>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reality1">
+                        <label for="reality1">Mein aktueller Satz klingt wie ein Marketing-Spruch</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reality2">
+                        <label for="reality2">Es ist ein schöner Satz – aber kein echter Grund, warum man mich buchen sollte</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reality3">
+                        <label for="reality3">Ich erkläre, <em>was</em> ich mache – aber nicht, was <em>passiert</em>, wenn man mit mir arbeitet</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reality4">
+                        <label for="reality4">Ich sage Dinge, die jeder Coach sagen könnte</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Superkraft finden -->
+            <div class="step-section purple-section">
+                <h3 class="step-title">
+                    <div class="step-number">2</div>
+                    Was macht dich einzigartig?
+                </h3>
+                <p style="margin-bottom: 20px;">Gehe durch die 4 Bereiche und beantworte je eine zentrale Frage schriftlich.</p>
+                
+                <label class="field-label">1. WIE machst du es anders als andere?</label>
+                <div class="example-text">Beispiel: Während andere lange coachen, liefere ich konkrete Systeme.</div>
+                <input type="text" id="wie" placeholder="Beschreibe deinen einzigartigen Ansatz...">
+                
+                <label class="field-label">2. FÜR WEN bist du wirklich da?</label>
+                <div class="example-text">Beispiel: Für introvertierte Coaches statt „alle Unternehmer"</div>
+                <input type="text" id="fuerwen" placeholder="Definiere deine spezifische Zielgruppe...">
+                
+                <label class="field-label">3. WAS genau versprichst du?</label>
+                <div class="example-text">Beispiel: 3 neue Kunden in 30 Tagen statt „mehr Erfolg"</div>
+                <input type="text" id="was" placeholder="Formuliere dein konkretes Versprechen...">
+                
+                <label class="field-label">4. WAS machst du bewusst NICHT?</label>
+                <div class="example-text">Beispiel: Keine Copy-Paste-Strategien</div>
+                <input type="text" id="wasnicht" placeholder="Was grenzt dich ab von anderen...">
+            </div>
+
+            <!-- 3. Drei Varianten -->
+            <div class="step-section yellow-section">
+                <h3 class="step-title">
+                    <div class="step-number">3</div>
+                    Baue 3 starke Wertversprechen – mit Vorlage
+                </h3>
+                <p style="margin-bottom: 20px;">Nutze eine der 3 Formeln und formuliere je einen Satz.</p>
+                
+                <label class="field-label">Version 1 – Problem-Killer:</label>
+                <div class="formula-box">„Nie wieder [Problem] – auch wenn [Ausrede]"</div>
+                <input type="text" id="version1" placeholder="z.B. Nie wieder Kundenakquise-Stress – auch wenn du introvertiert bist">
+                
+                <label class="field-label">Version 2 – Ergebnis-Versprechen:</label>
+                <div class="formula-box">„[Ergebnis] in [Zeit] – ohne [was sie hassen]"</div>
+                <input type="text" id="version2" placeholder="z.B. 5 neue Kunden in 60 Tagen – ohne aufdringliche Verkaufstaktiken">
+                
+                <label class="field-label">Version 3 – Kemal-Formel:</label>
+                <div class="formula-box">„Ich helfe [WEM], [WAS] zu erreichen – ohne [WAS SIE HASSEN]"</div>
+                <input type="text" id="version3" placeholder="z.B. Ich helfe introvertierten Coaches, Kunden zu gewinnen – ohne sich zu verstellen">
+            </div>
+
+            <!-- 4. Realitäts-Check -->
+            <div class="step-section green-section">
+                <h3 class="step-title">
+                    <div class="step-number">4</div>
+                    Teste dein Wertversprechen
+                </h3>
+                
+                <div class="test-item">
+                    <div class="test-question">✅ Mutter-Test: Versteht deine Mutter es in 10 Sekunden?</div>
+                    <div class="radio-group">
+                        <label><input type="radio" name="muttertest" value="ja"> Ja</label>
+                        <label><input type="radio" name="muttertest" value="nein"> Nein</label>
+                    </div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-question">✅ Langweiler-Test: Gähnst du selbst beim Vorlesen?</div>
+                    <div class="radio-group">
+                        <label><input type="radio" name="langweilertest" value="nein"> Nein</label>
+                        <label><input type="radio" name="langweilertest" value="ja"> Ja</label>
+                    </div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-question">✅ Austausch-Test: Könnte das jeder andere auch sagen?</div>
+                    <div class="radio-group">
+                        <label><input type="radio" name="austauschtest" value="nein"> Nein</label>
+                        <label><input type="radio" name="austauschtest" value="ja"> Ja</label>
+                    </div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-question">✅ Glaub-ich-nicht-Test: Klingt es übertrieben?</div>
+                    <div class="radio-group">
+                        <label><input type="radio" name="glaubtest" value="nein"> Nein</label>
+                        <label><input type="radio" name="glaubtest" value="ja"> Ja</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Killer vermeiden -->
+            <div class="step-section red-section">
+                <h3 class="step-title">
+                    <div class="step-number">5</div>
+                    Streich das aus deinem Kopf (und aus deinem Marketing)
+                </h3>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="killer1">
+                        <label for="killer1">Mein Satz enthält Floskeln wie „ganzheitlich" oder „Transformation"</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="killer2">
+                        <label for="killer2">Ich spreche „alle Unternehmer" an</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="killer3">
+                        <label for="killer3">Ich verspreche „Erfolg" statt ein konkretes Ergebnis</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="killer4">
+                        <label for="killer4">Ich verspreche Unmögliches (z. B. Millionär in 30 Tagen)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Finales Wertversprechen -->
+            <div class="step-section">
+                <h3 class="step-title">
+                    <div class="step-number">6</div>
+                    Dein finales Wertversprechen
+                </h3>
+                
+                <label class="field-label">Schritt 1: Beste Version wählen</label>
+                <textarea id="finaleVersion" placeholder="Wähle die beste deiner 3 Versionen oder kombiniere sie zu einem perfekten Satz..."></textarea>
+                
+                <label class="field-label">Schritt 2: Feedback einholen</label>
+                <p style="margin-bottom: 15px; font-style: italic;">5 reale Personen fragen: „Verstehst du sofort, was ich mache?"</p>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="feedback5">
+                        <label for="feedback5">Habe ich mit 5 echten Menschen gesprochen</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="feedbackAngepasst">
+                        <label for="feedbackAngepasst">Habe ich Feedback erhalten & angepasst</label>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 20px; font-weight: 600; color: #2d3748;">Schritt 3: Jetzt überall nutzen – online & offline</p>
+            </div>
+
+            <!-- 7. Zusammenfassung -->
+            <div class="reminder-box">
+                <h4>🧠 Zusammenfassung – No Bullshit</h4>
+                <ul>
+                    <li>Wertversprechen = Warum du keine Konkurrenz hast</li>
+                    <li>Konkret > kreativ</li>
+                    <li>Testen > perfektionieren</li>
+                    <li>Wenn du selbst nicht begeistert bist – wird's keiner sein</li>
+                </ul>
+            </div>
+
+            <!-- Abschluss -->
+            <div class="final-section">
+                <p style="font-size: 1.2em; font-weight: 500;">
+                    🚀 <strong>Nächste Lektion: Positionierung kommunizieren – Wie du dein Wertversprechen überall einheitlich einsetzt</strong>
+                </p>
+            </div>
+
+            <!-- PDF Export Button -->
+            <div class="pdf-button-container">
+                <button onclick="downloadPDF()" class="pdf-export-btn">
+                    🖨️ Als PDF drucken/speichern
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- PDF Container Ende -->
+
+    <!-- PDF Export Scripts -->
+    <script>
+        function downloadPDF() {
+            // Button-Feedback während PDF erstellt wird
+            const button = document.querySelector('.pdf-export-btn');
+            const originalText = button.innerHTML;
+            button.innerHTML = '⏳ PDF wird vorbereitet...';
+            button.disabled = true;
+
+            // CSS für PDF temporär hinzufügen
+            const printStyle = document.createElement('style');
+            printStyle.textContent = `
+                @page {
+                    margin: 0.5in;
+                    size: A4;
+                }
+                @media print {
+                    body { 
+                        margin: 0 !important; 
+                        padding: 0 !important;
+                        background: white !important;
+                    }
+                    .container {
+                        box-shadow: none !important;
+                        margin: 0 !important;
+                        border-radius: 0 !important;
+                    }
+                    .pdf-button-container {
+                        display: none !important;
+                    }
+                    /* Eingabewerte in PDF sichtbar machen */
+                    input[type="text"], textarea {
+                        border: 1px solid #333 !important;
+                        background: white !important;
+                        color: #000 !important;
+                        font-size: 12pt !important;
+                        padding: 5px !important;
+                        margin-bottom: 10px !important;
+                    }
+                    /* Checkbox-Status anzeigen */
+                    input[type="checkbox"]:checked::after {
+                        content: "✓" !important;
+                        color: #000 !important;
+                        font-weight: bold !important;
+                    }
+                    /* Radio Button Status anzeigen */
+                    input[type="radio"]:checked::after {
+                        content: "●" !important;
+                        color: #000 !important;
+                        font-weight: bold !important;
+                    }
+                }
+            `;
+            document.head.appendChild(printStyle);
+            
+            // Kurz warten, dann Print Dialog öffnen
+            setTimeout(() => {
+                window.print();
+                
+                // Style nach dem Drucken wieder entfernen
+                setTimeout(() => {
+                    document.head.removeChild(printStyle);
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 1000);
+            }, 500);
+        }
+
+        // Automatisches Speichern der Eingaben im Browser (Local Storage)
+        function saveData() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.type === 'checkbox') {
+                    localStorage.setItem(input.id, input.checked);
+                } else if (input.type === 'radio') {
+                    if (input.checked) {
+                        localStorage.setItem(input.name, input.value);
+                    }
+                } else {
+                    localStorage.setItem(input.id, input.value);
+                }
+            });
+        }
+
+        function loadData() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.type === 'checkbox') {
+                    const saved = localStorage.getItem(input.id);
+                    if (saved !== null) {
+                        input.checked = saved === 'true';
+                    }
+                } else if (input.type === 'radio') {
+                    const saved = localStorage.getItem(input.name);
+                    if (saved === input.value) {
+                        input.checked = true;
+                    }
+                } else {
+                    const saved = localStorage.getItem(input.id);
+                    if (saved !== null) {
+                        input.value = saved;
+                    }
+                }
+            });
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const totalFields = document.querySelectorAll('input[type="text"], textarea').length;
+            const filledFields = Array.from(document.querySelectorAll('input[type="text"], textarea')).filter(field => field.value.trim() !== '').length;
+            const totalCheckboxes = document.querySelectorAll('input[type="checkbox"], input[type="radio"]').length;
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked, input[type="radio"]:checked').length;
+            
+            const totalItems = totalFields + totalCheckboxes;
+            const completedItems = filledFields + checkedBoxes;
+            const progress = (completedItems / totalItems) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            
+            const allInputs = document.querySelectorAll('input, textarea');
+            allInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    updateProgress();
+                    saveData();
+                });
+                input.addEventListener('change', () => {
+                    updateProgress();
+                    saveData();
+                });
+            });
+            
+            // Initial progress calculation
+            updateProgress();
+        });
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    </script>
