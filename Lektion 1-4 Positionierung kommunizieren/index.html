@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Positionierung kommunizieren - Lektion 1.4</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .pdf-button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .pdf-export-btn {
+            padding: 15px 30px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .pdf-export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 161, 105, 0.4);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .trigger-box {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid white;
+        }
+
+        .trigger-sentence {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .goal-text {
+            font-style: normal;
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .step-section {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .step-section:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.1);
+        }
+
+        .step-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+
+        .template-section { border-left: 5px solid #38b2ac; }
+        .error-section { border-left: 5px solid #e53e3e; }
+        .checklist-section { border-left: 5px solid #38a169; }
+        .test-section { border-left: 5px solid #d69e2e; }
+        .sprint-section { border-left: 5px solid #805ad5; }
+        .strategy-section { border-left: 5px solid #3182ce; }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-group {
+            margin: 20px 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .checkbox-item:hover {
+            background-color: #f7fafc;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .field-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a5568;
+            display: block;
+        }
+
+        .error-box {
+            background: #fff5f5;
+            border: 2px solid #e53e3e;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .error-title {
+            color: #e53e3e;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .error-content {
+            margin-bottom: 15px;
+        }
+
+        .error-problem {
+            color: #c53030;
+            font-weight: 600;
+        }
+
+        .error-example {
+            color: #666;
+            font-style: italic;
+            margin: 5px 0;
+        }
+
+        .error-solution {
+            color: #38a169;
+            font-weight: 600;
+        }
+
+        .timeline-box {
+            background: #edf2f7;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .timeline-title {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .test-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .test-question {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .sprint-day {
+            background: #f0fff4;
+            border: 1px solid #38a169;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sprint-day-title {
+            color: #38a169;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .sprint-hour {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .sprint-hour-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .summary-box {
+            background: #e6fffa;
+            border: 2px solid #38b2ac;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .summary-title {
+            color: #2c7a7b;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .summary-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .summary-list li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .summary-list li:before {
+            content: "•";
+            color: #38b2ac;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .final-section {
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            @page {
+                margin: 0.5in;
+                size: A4;
+            }
+            
+            body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+                line-height: 1.6 !important;
+                color: #333 !important;
+            }
+            
+            .container {
+                background: white !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                max-width: none !important;
+                width: 100% !important;
+            }
+            
+            .header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                color: white !important;
+                padding: 30px 20px !important;
+                text-align: center !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .step-section {
+                background: #f7fafc !important;
+                border: 2px solid #e2e8f0 !important;
+                border-radius: 15px !important;
+                padding: 20px !important;
+                margin-bottom: 20px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .template-section { border-left: 5px solid #38b2ac !important; }
+            .error-section { border-left: 5px solid #e53e3e !important; }
+            .checklist-section { border-left: 5px solid #38a169 !important; }
+            .test-section { border-left: 5px solid #d69e2e !important; }
+            .sprint-section { border-left: 5px solid #805ad5 !important; }
+            .strategy-section { border-left: 5px solid #3182ce !important; }
+            
+            .trigger-box {
+                background: rgba(255,255,255,0.2) !important;
+                padding: 15px !important;
+                border-radius: 15px !important;
+                margin: 15px 0 !important;
+                border-left: 5px solid white !important;
+            }
+            
+            .checkbox-item {
+                display: flex !important;
+                align-items: flex-start !important;
+                margin-bottom: 8px !important;
+                padding: 8px !important;
+                border-radius: 8px !important;
+                border: 1px solid #e2e8f0 !important;
+                background: white !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .test-item {
+                background: white !important;
+                border: 1px solid #e2e8f0 !important;
+                border-radius: 8px !important;
+                padding: 10px !important;
+                margin-bottom: 10px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .error-box {
+                background: #fff5f5 !important;
+                border: 2px solid #e53e3e !important;
+                border-radius: 10px !important;
+                padding: 15px !important;
+                margin-bottom: 15px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .timeline-box {
+                background: #edf2f7 !important;
+                border-left: 4px solid #667eea !important;
+                border-radius: 8px !important;
+                padding: 15px !important;
+                margin: 10px 0 !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .sprint-day {
+                background: #f0fff4 !important;
+                border: 1px solid #38a169 !important;
+                border-radius: 8px !important;
+                padding: 15px !important;
+                margin-bottom: 15px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .summary-box {
+                background: #e6fffa !important;
+                border: 2px solid #38b2ac !important;
+                border-radius: 10px !important;
+                padding: 15px !important;
+                margin: 15px 0 !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .final-section {
+                background: linear-gradient(135deg, #38a169 0%, #48bb78 100%) !important;
+                color: white !important;
+                padding: 20px !important;
+                border-radius: 15px !important;
+                text-align: center !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            /* Button verstecken */
+            .pdf-button-container {
+                display: none !important;
+            }
+            
+            /* Schrift und Farben */
+            .step-title {
+                color: #2d3748 !important;
+                font-weight: 600 !important;
+            }
+            
+            input, textarea {
+                border: 1px solid #333 !important;
+                background: white !important;
+                color: #000 !important;
+                font-size: 12pt !important;
+                padding: 5px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            /* Checkbox-Status anzeigen */
+            input[type="checkbox"]:checked::after {
+                content: "✓" !important;
+                color: #000 !important;
+                font-weight: bold !important;
+            }
+            
+            /* Radio Button Status anzeigen */
+            input[type="radio"]:checked::after {
+                content: "●" !important;
+                color: #000 !important;
+                font-weight: bold !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PDF Container Start -->
+    <div id="meinFormular" class="container">
+        <div class="header">
+            <h1>🎯 Positionierung kommunizieren</h1>
+            <p>Lektion 1.4: Konsistenz auf allen Kanälen</p>
+            <p style="opacity: 0.8; font-size: 1em; margin-top: 5px;">Mache deine Positionierung überall sichtbar</p>
+            
+            <div class="trigger-box">
+                <div class="trigger-sentence">
+                    📝 Übung: Deine Positionierung überall sichtbar machen
+                </div>
+                <div class="goal-text">
+                    Sorge dafür, dass deine Positionierung auf allen Kanälen einheitlich und kraftvoll rüberkommt.
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Konsistenz-Template -->
+            <div class="step-section template-section">
+                <h3 class="step-title">📝 Konsistenz-Template zum Ausfüllen</h3>
+                
+                <label class="field-label">Mein Positionierungs-Statement aus 1.1:</label>
+                <textarea id="statement" placeholder="Trage hier dein Positionierungs-Statement aus Lektion 1.1 ein..."></textarea>
+                
+                <p style="margin: 20px 0; font-weight: 600; color: #2d3748;">So verwende ich es auf jedem Kanal:</p>
+                
+                <label class="field-label">LinkedIn-Headline:</label>
+                <input type="text" id="linkedin" placeholder="z.B. Ich helfe introvertierten Coaches beim Kundengewinn – ohne aufdringliche Verkaufstaktiken">
+                
+                <label class="field-label">Website-Header:</label>
+                <input type="text" id="website" placeholder="Hauptüberschrift deiner Website...">
+                
+                <label class="field-label">E-Mail-Signatur:</label>
+                <input type="text" id="email" placeholder="Kurze Version für E-Mail-Signatur...">
+                
+                <label class="field-label">Instagram-Bio:</label>
+                <input type="text" id="instagram" placeholder="Angepasst für Instagram (max. 150 Zeichen)...">
+                
+                <label class="field-label">Elevator Pitch (30 Sek.):</label>
+                <textarea id="elevator" placeholder="Mündliche Version deines Statements für Networking-Events..."></textarea>
+                
+                <label class="field-label">Visitenkarten-Text:</label>
+                <input type="text" id="visitenkarte" placeholder="Kurze Version für Visitenkarten...">
+            </div>
+
+            <!-- 7 häufige Fehler -->
+            <div class="step-section error-section">
+                <h3 class="step-title">🚨 Die 7 häufigsten Kommunikations-Fehler</h3>
+                
+                <div class="error-box">
+                    <div class="error-title">❌ Fehler 1: Das Chamäleon-Syndrom</div>
+                    <div class="error-content">
+                        <div class="error-problem">Problem: Je nach Kanal andere Positionierung</div>
+                        <div class="error-example">Beispiel: LinkedIn = "Business-Coach", Instagram = "Life-Coach"</div>
+                        <div class="error-solution">Lösung: Ein Statement, überall gleich</div>
+                    </div>
+                </div>
+                
+                <div class="error-box">
+                    <div class="error-title">❌ Fehler 2: Die Verwässerung</div>
+                    <div class="error-content">
+                        <div class="error-problem">Problem: "Um niemanden auszuschließen" wird alles vager</div>
+                        <div class="error-example">Beispiel: "Ich helfe Menschen" statt "Ich helfe Solo-Coaches"</div>
+                        <div class="error-solution">Lösung: Spitz bleiben, auch wenn es wehtut</div>
+                    </div>
+                </div>
+                
+                <div class="error-box">
+                    <div class="error-title">❌ Fehler 3: Der Trends-Jäger</div>
+                    <div class="error-content">
+                        <div class="error-problem">Problem: Positionierung ändert sich alle 3 Monate</div>
+                        <div class="error-example">Beispiel: Mal "KI-Experte", mal "Mindset-Coach", mal "Sales-Guru"</div>
+                        <div class="error-solution">Lösung: Mindestens 12 Monate durchhalten</div>
+                    </div>
+                </div>
+                
+                <div class="error-box">
+                    <div class="error-title">❌ Fehler 4: Der Fachjargon-Bombardierer</div>
+                    <div class="error-content">
+                        <div class="error-problem">Problem: Zu komplizierte Sprache</div>
+                        <div class="error-example">Beispiel: "Ganzheitliche Transformationsbegleitung"</div>
+                        <div class="error-solution">Lösung: So sprechen, wie deine Zielgruppe spricht</div>
+                    </div>
+                </div>
+                
+                <div class="error-box">
+                    <div class="error-title">❌ Fehler 5: Der Unsichtbare</div>
+                    <div class="error-content">
+                        <div class="error-problem">Problem: Positionierung nur auf der Website, nirgendwo sonst</div>
+                        <div class="error-example">Beispiel: Perfekte Website, aber leere LinkedIn-Headline</div>
+                        <div class="error-solution">Lösung: Überall sichtbar sein</div>
+                    </div>
+                </div>
+                
+                <div class="error-box">
+                    <div class="error-title">❌ Fehler 6: Der Übertreiber</div>
+                    <div class="error-content">
+                        <div class="error-problem">Problem: Unrealistische Versprechen</div>
+                        <div class="error-example">Beispiel: "Millionär in 30 Tagen garantiert"</div>
+                        <div class="error-solution">Lösung: Ehrlich bleiben, auch wenn es weniger sexy ist</div>
+                    </div>
+                </div>
+                
+                <div class="error-box">
+                    <div class="error-title">❌ Fehler 7: Der Langweiler</div>
+                    <div class="error-content">
+                        <div class="error-problem">Problem: Keine Persönlichkeit in der Kommunikation</div>
+                        <div class="error-example">Beispiel: "Ich biete professionelle Dienstleistungen"</div>
+                        <div class="error-solution">Lösung: Deine echte Persönlichkeit zeigen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkliste -->
+            <div class="step-section checklist-section">
+                <h3 class="step-title">💪 Die Positionierungs-Kommunikations-Checkliste</h3>
+                
+                <div class="timeline-box">
+                    <div class="timeline-title">Woche 1: Basis-Kanäle updaten</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="linkedin-profil">
+                            <label for="linkedin-profil">LinkedIn-Profil überarbeitet (Headline mit Positionierungs-Statement, About-Bereich angepasst, Aktueller Post mit neuer Positionierung)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="website-update">
+                            <label for="website-update">Website aktualisiert (Header-Bereich, Über-mich-Seite, Angebots-Seiten)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="email-signatur">
+                            <label for="email-signatur">E-Mail-Signatur geändert (Positionierungs-Statement eingefügt, Konsistent in allen E-Mail-Accounts)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-box">
+                    <div class="timeline-title">Woche 2: Social Media harmonisieren</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="instagram-facebook">
+                            <label for="instagram-facebook">Instagram/Facebook (Bio überarbeitet, Highlights angepasst, Story mit neuer Positionierung)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="youtube-tiktok">
+                            <label for="youtube-tiktok">YouTube/TikTok (falls vorhanden: Kanal-Beschreibung, Video-Intros angepasst)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-box">
+                    <div class="timeline-title">Woche 3: Offline-Materialien</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="visitenkarten">
+                            <label for="visitenkarten">Visitenkarten neu drucken (Mit neuem Positionierungs-Statement)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="elevator-pitch">
+                            <label for="elevator-pitch">Elevator Pitch üben (30-Sekunden-Version, 60-Sekunden-Version)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="netzwerk">
+                            <label for="netzwerk">Netzwerk informieren (5 wichtigste Kontakte über neue Positionierung informiert)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-box">
+                    <div class="timeline-title">Woche 4: Content-Strategie</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="content-plan">
+                            <label for="content-plan">Content-Plan erstellt (Alle Posts unterstützen die Positionierung, Keine widersprüchlichen Inhalte mehr)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="feedback-gesammelt">
+                            <label for="feedback-gesammelt">Feedback gesammelt (3 Personen gefragt: "Ist jetzt klar, was ich mache?")</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reality Check -->
+            <div class="step-section test-section">
+                <h3 class="step-title">🔍 Der Konsistenz-Reality-Check</h3>
+                
+                <div class="test-item">
+                    <div class="test-question">Test 1: Der Fremden-Test</div>
+                    <p style="margin-bottom: 10px;">Gib einem Fremden 5 Minuten, um alle deine Online-Profile anzuschauen. Kann er danach in einem Satz sagen, was du machst?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="fremdentest" value="ja"> Ja</label>
+                        <label><input type="radio" name="fremdentest" value="nein"> Nein</label>
+                    </div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-question">Test 2: Der Zeitreise-Test</div>
+                    <p style="margin-bottom: 10px;">Schau dir deine Posts der letzten 4 Wochen an. Würde jemand die gleiche Positionierung ableiten?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="zeitreisetest" value="ja"> Ja</label>
+                        <label><input type="radio" name="zeitreisetest" value="nein"> Nein</label>
+                    </div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-question">Test 3: Der Kanal-Hopping-Test</div>
+                    <p style="margin-bottom: 10px;">Geh von LinkedIn zu deiner Website zu Instagram. Fühlt es sich wie dieselbe Person/Marke an?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="kanalhoppingtest" value="ja"> Ja</label>
+                        <label><input type="radio" name="kanalhoppingtest" value="nein"> Nein</label>
+                    </div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-question">Test 4: Der Weiterempfehlungs-Test</div>
+                    <p style="margin-bottom: 10px;">Könnten deine Kontakte dich weiterempfehlen, ohne nachzudenken?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="weiterempfehlungstest" value="ja"> Ja</label>
+                        <label><input type="radio" name="weiterempfehlungstest" value="nein"> Nein</label>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 20px; font-weight: 600; color: #38a169;">Wenn alle 4 Tests "JA" sind → Deine Kommunikation ist konsistent!</p>
+            </div>
+
+            <!-- 48h Sprint -->
+            <div class="step-section sprint-section">
+                <h3 class="step-title">⚡ Der 48-Stunden-Konsistenz-Sprint</h3>
+                <p style="margin-bottom: 20px;">So machst du in 2 Tagen alles konsistent:</p>
+                
+                <div class="sprint-day">
+                    <div class="sprint-day-title">Tag 1 (2 Stunden):</div>
+                    <div class="sprint-hour">
+                        <div class="sprint-hour-title">Stunde 1: Audit machen</div>
+                        <ul style="margin-left: 20px;">
+                            <li>Alle deine Profile Screenshots machen</li>
+                            <li>Inconsistenzen notieren</li>
+                            <li>Prioritätenliste erstellen</li>
+                        </ul>
+                    </div>
+                    <div class="sprint-hour">
+                        <div class="sprint-hour-title">Stunde 2: Hauptkanäle fixen</div>
+                        <ul style="margin-left: 20px;">
+                            <li>LinkedIn-Headline ändern</li>
+                            <li>Website-Header updaten</li>
+                            <li>E-Mail-Signatur anpassen</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sprint-day">
+                    <div class="sprint-day-title">Tag 2 (2 Stunden):</div>
+                    <div class="sprint-hour">
+                        <div class="sprint-hour-title">Stunde 1: Social Media harmonisieren</div>
+                        <ul style="margin-left: 20px;">
+                            <li>Instagram/Facebook-Bio</li>
+                            <li>YouTube-Beschreibung</li>
+                            <li>Alte Posts checken</li>
+                        </ul>
+                    </div>
+                    <div class="sprint-hour">
+                        <div class="sprint-hour-title">Stunde 2: Offline vorbereiten</div>
+                        <ul style="margin-left: 20px;">
+                            <li>Elevator Pitch schreiben</li>
+                            <li>Visitenkarten-Text finalisieren</li>
+                            <li>Netzwerk-Update-Mail vorbereiten</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
+                    <label class="field-label">🎯 Mein 48h-Plan:</label>
+                    <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div style="flex: 1;">
+                            <label style="font-size: 0.9em; color: #666;">Tag 1 starte ich am:</label>
+                            <input type="text" id="tag1" placeholder="z.B. Montag, 15. Januar, 9:00 Uhr">
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="font-size: 0.9em; color: #666;">Tag 2 starte ich am:</label>
+                            <input type="text" id="tag2" placeholder="z.B. Dienstag, 16. Januar, 9:00 Uhr">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Langfristige Strategie -->
+            <div class="step-section strategy-section">
+                <h3 class="step-title">🎯 Langfristige Konsistenz-Strategie</h3>
+                
+                <div class="timeline-box">
+                    <div class="timeline-title">Monatlicher Check (10 Minuten):</div>
+                    <ul style="margin-left: 20px;">
+                        <li>Alle Kanäle durchgehen</li>
+                        <li>Neue Posts auf Konsistenz prüfen</li>
+                        <li>Ggf. nachjustieren</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-box">
+                    <div class="timeline-title">Quartalsweise Review (30 Minuten):</div>
+                    <ul style="margin-left: 20px;">
+                        <li>Positionierung noch aktuell?</li>
+                        <li>Markt hat sich verändert?</li>
+                        <li>Anpassungen nötig?</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-box">
+                    <div class="timeline-title">Jährliche Positionierungs-Review (2 Stunden):</div>
+                    <ul style="margin-left: 20px;">
+                        <li>Komplette Überarbeitung</li>
+                        <li>Neue Zielgruppen-Insights</li>
+                        <li>Positionierung schärfen</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
+                    <label class="field-label">🎯 Meine Konsistenz-Termine:</label>
+                    <label style="font-size: 0.9em; color: #666;">Monatlicher Check:</label>
+                    <input type="text" id="monatlich" placeholder="z.B. Jeden 1. des Monats">
+                    <label style="font-size: 0.9em; color: #666;">Quartals-Review:</label>
+                    <input type="text" id="quartals" placeholder="z.B. 1. Januar, 1. April, 1. Juli, 1. Oktober">
+                    <label style="font-size: 0.9em; color: #666;">Jahres-Review:</label>
+                    <input type="text" id="jahres" placeholder="z.B. 15. Dezember">
+                </div>
+            </div>
+
+            <!-- Schnell-Check -->
+            <div class="step-section">
+                <h3 class="step-title">✅ Schnell-Check: Bin ich konsistent?</h3>
+                <p style="margin-bottom: 20px;">In 2 Minuten testen:</p>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check1">
+                        <label for="check1">LinkedIn-Headline = Website-Header?</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check2">
+                        <label for="check2">E-Mail-Signatur passt zur Positionierung?</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check3">
+                        <label for="check3">Instagram-Bio konsistent?</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check4">
+                        <label for="check4">Letzte 5 Posts unterstützen die Positionierung?</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check5">
+                        <label for="check5">Elevator Pitch sitzt?</label>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 20px; font-weight: 600; color: #38a169;">5/5 Checks ✅ = Du bist bereit für Lektion 1.5!</p>
+            </div>
+
+            <!-- Zusammenfassung -->
+            <div class="summary-box">
+                <div class="summary-title">🎯 Zusammenfassung: Konsistenz ist König</div>
+                <ul class="summary-list">
+                    <li>Eine Positionierung, alle Kanäle</li>
+                    <li>Regelmäßige Konsistenz-Checks</li>
+                    <li>Geduld: Mindestens 12 Monate durchhalten</li>
+                    <li>Authentisch bleiben, auch bei der Vereinheitlichung</li>
+                </ul>
+            </div>
+
+            <!-- Abschluss -->
+            <div class="final-section">
+                <h3 style="margin-bottom: 15px;">🚀 Glückwunsch!</h3>
+                <p style="margin-bottom: 20px;">Du hast jetzt alle Tools, um deine Positionierung konsistent zu kommunizieren.</p>
+                <p><strong>Nächstes Modul:</strong> Modul 2: Sichtbarkeit & Leadaufbau</p>
+            </div>
+
+            <!-- PDF Export Button -->
+            <div class="pdf-button-container">
+                <button onclick="downloadPDF()" class="pdf-export-btn">
+                    🖨️ Als PDF drucken/speichern
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- PDF Container Ende -->
+
+    <!-- PDF Export Scripts -->
+    <script>
+        function downloadPDF() {
+            // Button-Feedback während PDF erstellt wird
+            const button = document.querySelector('.pdf-export-btn');
+            const originalText = button.innerHTML;
+            button.innerHTML = '⏳ PDF wird vorbereitet...';
+            button.disabled = true;
+
+            // CSS für PDF temporär hinzufügen
+            const printStyle = document.createElement('style');
+            printStyle.textContent = `
+                @page {
+                    margin: 0.5in;
+                    size: A4;
+                }
+                @media print {
+                    body { 
+                        margin: 0 !important; 
+                        padding: 0 !important;
+                        background: white !important;
+                    }
+                    .container {
+                        box-shadow: none !important;
+                        margin: 0 !important;
+                        border-radius: 0 !important;
+                    }
+                    .pdf-button-container {
+                        display: none !important;
+                    }
+                    /* Eingabewerte in PDF sichtbar machen */
+                    input[type="text"], textarea {
+                        border: 1px solid #333 !important;
+                        background: white !important;
+                        color: #000 !important;
+                        font-size: 12pt !important;
+                        padding: 5px !important;
+                        margin-bottom: 10px !important;
+                    }
+                    /* Checkbox-Status anzeigen */
+                    input[type="checkbox"]:checked::after {
+                        content: "✓" !important;
+                        color: #000 !important;
+                        font-weight: bold !important;
+                    }
+                    /* Radio Button Status anzeigen */
+                    input[type="radio"]:checked::after {
+                        content: "●" !important;
+                        color: #000 !important;
+                        font-weight: bold !important;
+                    }
+                }
+            `;
+            document.head.appendChild(printStyle);
+            
+            // Kurz warten, dann Print Dialog öffnen
+            setTimeout(() => {
+                window.print();
+                
+                // Style nach dem Drucken wieder entfernen
+                setTimeout(() => {
+                    document.head.removeChild(printStyle);
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 1000);
+            }, 500);
+        }
+
+        // Automatisches Speichern der Eingaben im Browser (Local Storage)
+        function saveData() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.type === 'checkbox') {
+                    localStorage.setItem(input.id, input.checked);
+                } else if (input.type === 'radio') {
+                    if (input.checked) {
+                        localStorage.setItem(input.name, input.value);
+                    }
+                } else {
+                    localStorage.setItem(input.id, input.value);
+                }
+            });
+        }
+
+        function loadData() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.type === 'checkbox') {
+                    const saved = localStorage.getItem(input.id);
+                    if (saved !== null) {
+                        input.checked = saved === 'true';
+                    }
+                } else if (input.type === 'radio') {
+                    const saved = localStorage.getItem(input.name);
+                    if (saved === input.value) {
+                        input.checked = true;
+                    }
+                } else {
+                    const saved = localStorage.getItem(input.id);
+                    if (saved !== null) {
+                        input.value = saved;
+                    }
+                }
+            });
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const totalFields = document.querySelectorAll('input[type="text"], textarea').length;
+            const filledFields = Array.from(document.querySelectorAll('input[type="text"], textarea')).filter(field => field.value.trim() !== '').length;
+            const totalCheckboxes = document.querySelectorAll('input[type="checkbox"], input[type="radio"]').length;
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked, input[type="radio"]:checked').length;
+            
+            const totalItems = totalFields + totalCheckboxes;
+            const completedItems = filledFields + checkedBoxes;
+            const progress = (completedItems / totalItems) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            
+            const allInputs = document.querySelectorAll('input, textarea');
+            allInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    updateProgress();
+                    saveData();
+                });
+                input.addEventListener('change', () => {
+                    updateProgress();
+                    saveData();
+                });
+            });
+            
+            // Initial progress calculation
+            updateProgress();
+        });
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    </script>
+</body>
+</html>
