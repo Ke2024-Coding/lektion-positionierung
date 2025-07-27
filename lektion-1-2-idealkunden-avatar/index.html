@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idealkunden-Avatar Werkstatt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .pdf-button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .pdf-export-btn {
+            padding: 15px 30px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .pdf-export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 161, 105, 0.4);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .trigger-box {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid white;
+        }
+
+        .trigger-sentence {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .goal-box {
+            background: rgba(255,255,255,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .step-section {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .step-section:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.1);
+        }
+
+        .step-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-row input {
+            flex: 1;
+        }
+
+        .checkbox-group {
+            margin: 20px 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .checkbox-item:hover {
+            background-color: #f7fafc;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .reality-check {
+            background: #fff5f5;
+            border-left: 5px solid #e53e3e;
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .validation-section {
+            background: #f0fff4;
+            border-left: 5px solid #38a169;
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .quote-field {
+            background: #f8f9fa;
+            border-left: 4px solid #6c757d;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-style: italic;
+        }
+
+        .hint-box {
+            background: #e6fffa;
+            border: 2px solid #38b2ac;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .hint-box::before {
+            content: "💡";
+            font-size: 1.5em;
+            position: absolute;
+            top: 15px;
+            left: 20px;
+        }
+
+        .hint-box .hint-content {
+            margin-left: 40px;
+            font-weight: 500;
+        }
+
+        .save-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin: 20px 10px 20px 0;
+        }
+
+        .save-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .next-lesson {
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .next-lesson h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .next-lesson-button {
+            background: white;
+            color: #38a169;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .next-lesson-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .field-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a5568;
+            display: block;
+        }
+
+        .age-range {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .age-range input {
+            width: 80px;
+            margin-bottom: 0;
+        }
+
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            @page {
+                margin: 0.5in;
+                size: A4;
+            }
+            
+            body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+                line-height: 1.6 !important;
+                color: #333 !important;
+            }
+            
+            .container {
+                background: white !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                max-width: none !important;
+                width: 100% !important;
+            }
+            
+            .header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                color: white !important;
+                padding: 30px 20px !important;
+                text-align: center !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .step-section {
+                background: #f7fafc !important;
+                border: 2px solid #e2e8f0 !important;
+                border-radius: 15px !important;
+                padding: 20px !important;
+                margin-bottom: 20px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .reality-check {
+                background: #fff5f5 !important;
+                border-left: 5px solid #e53e3e !important;
+                border-radius: 10px !important;
+                padding: 20px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .validation-section {
+                background: #f0fff4 !important;
+                border-left: 5px solid #38a169 !important;
+                border-radius: 10px !important;
+                padding: 20px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .hint-box {
+                background: #e6fffa !important;
+                border: 2px solid #38b2ac !important;
+                border-radius: 10px !important;
+                padding: 15px !important;
+                margin: 15px 0 !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .quote-field {
+                background: #f8f9fa !important;
+                border-left: 4px solid #6c757d !important;
+                padding: 10px !important;
+                margin-bottom: 10px !important;
+                border-radius: 5px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .checkbox-item {
+                display: flex !important;
+                align-items: center !important;
+                margin-bottom: 8px !important;
+                padding: 8px !important;
+                border-radius: 8px !important;
+                border: 1px solid #e2e8f0 !important;
+                background: white !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .trigger-box {
+                background: rgba(255,255,255,0.2) !important;
+                padding: 15px !important;
+                border-radius: 15px !important;
+                margin: 15px 0 !important;
+                border-left: 5px solid white !important;
+            }
+            
+            .step-number {
+                background: #667eea !important;
+                color: white !important;
+                border-radius: 50% !important;
+                width: 35px !important;
+                height: 35px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin-right: 15px !important;
+                font-weight: bold !important;
+            }
+            
+            /* Button verstecken */
+            .pdf-button-container {
+                display: none !important;
+            }
+            
+            /* Schrift und Farben */
+            .step-title {
+                color: #2d3748 !important;
+                font-weight: 600 !important;
+            }
+            
+            input, textarea {
+                border: 1px solid #333 !important;
+                background: white !important;
+                color: #000 !important;
+                font-size: 12pt !important;
+                padding: 5px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            /* Checkbox-Status anzeigen */
+            input[type="checkbox"]:checked::after {
+                content: "✓" !important;
+                color: #000 !important;
+                font-weight: bold !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .input-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PDF Container Start -->
+    <div id="meinFormular" class="container">
+        <div class="header">
+            <h1>🎯 Idealkunden-Avatar Werkstatt</h1>
+            <p>Lektion 1.2: Zielgruppe präzise definieren</p>
+            <p style="opacity: 0.8; font-size: 1em; margin-top: 5px;">Definiere deinen Wunschkunden glasklar und spezifisch</p>
+            
+            <div class="trigger-box">
+                <div class="trigger-sentence">
+                    📝 Übung: Definiere deinen idealen Wunschkunden (Avatar)
+                </div>
+                <div class="goal-box">
+                    Bitte fülle die folgenden Felder so konkret wie möglich aus. Je klarer dein Wunschkunde ist, desto wirkungsvoller wird dein Marketing.
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Schritt 1: Top-Kunden benennen -->
+            <div class="step-section">
+                <h3 class="step-title">
+                    <div class="step-number">1</div>
+                    Top-Kunden benennen
+                </h3>
+                <p style="margin-bottom: 20px;">Denke an deine 5 besten Kunden oder Wunschkunden:</p>
+                
+                <label class="field-label">Kunde 1:</label>
+                <input type="text" id="kunde1" placeholder="Name oder Beschreibung deines Top-Kunden">
+                
+                <label class="field-label">Kunde 2:</label>
+                <input type="text" id="kunde2" placeholder="Name oder Beschreibung deines Top-Kunden">
+                
+                <label class="field-label">Kunde 3:</label>
+                <input type="text" id="kunde3" placeholder="Name oder Beschreibung deines Top-Kunden">
+                
+                <label class="field-label">Kunde 4:</label>
+                <input type="text" id="kunde4" placeholder="Name oder Beschreibung deines Top-Kunden">
+                
+                <label class="field-label">Kunde 5:</label>
+                <input type="text" id="kunde5" placeholder="Name oder Beschreibung deines Top-Kunden">
+            </div>
+
+            <!-- Schritt 2: Gemeinsamkeiten analysieren -->
+            <div class="step-section">
+                <h3 class="step-title">
+                    <div class="step-number">2</div>
+                    Gemeinsamkeiten analysieren
+                </h3>
+                <p style="margin-bottom: 20px;">Welche Gemeinsamkeiten erkennst du bei deinen Top-Kunden?</p>
+                
+                <label class="field-label">Altersbereich:</label>
+                <div class="age-range">
+                    Von <input type="text" id="alterVon" placeholder="25"> bis <input type="text" id="alterBis" placeholder="45"> Jahre
+                </div>
+                
+                <label class="field-label">Beruf/Position:</label>
+                <textarea id="beruf" placeholder="z.B. Führungskraft, Unternehmer, Freelancer..."></textarea>
+                
+                <label class="field-label">Erfahrung/Expertise:</label>
+                <textarea id="erfahrung" placeholder="z.B. 5-10 Jahre Berufserfahrung, Branchenerfahrung..."></textarea>
+                
+                <label class="field-label">Unternehmensgröße:</label>
+                <textarea id="unternehmensgroesse" placeholder="z.B. Start-up, Mittelstand, Konzern..."></textarea>
+                
+                <label class="field-label">Herausforderungen:</label>
+                <textarea id="herausforderungen" placeholder="Welche Probleme haben sie alle gemeinsam?"></textarea>
+            </div>
+
+            <!-- Schritt 3: Avatar erstellen -->
+            <div class="step-section">
+                <h3 class="step-title">
+                    <div class="step-number">3</div>
+                    Avatar erstellen
+                </h3>
+                <p style="margin-bottom: 20px;">Erstelle basierend auf den Gemeinsamkeiten deinen Idealkunden:</p>
+                
+                <label class="field-label">Name (erfunden):</label>
+                <input type="text" id="avatarName" placeholder="z.B. Marketing-Michael, Führungskraft-Sabine">
+                
+                <label class="field-label">Alter & Situation:</label>
+                <textarea id="alterSituation" placeholder="z.B. 38 Jahre, verheiratet, 2 Kinder, lebt in Großstadt..."></textarea>
+                
+                <label class="field-label">Job & Verantwortung:</label>
+                <textarea id="jobVerantwortung" placeholder="z.B. Marketing-Leiter in 50-Personen-Unternehmen, verantwortlich für..."></textarea>
+                
+                <label class="field-label">Hauptproblem:</label>
+                <textarea id="hauptproblem" placeholder="Was ist das dringendste Problem, das gelöst werden muss?"></textarea>
+                
+                <label class="field-label">Ziele & Wünsche:</label>
+                <textarea id="ziele" placeholder="Was möchte diese Person erreichen?"></textarea>
+                
+                <label class="field-label">Ängste & Sorgen:</label>
+                <textarea id="aengste" placeholder="Wovor hat diese Person Angst? Was bereitet Sorgen?"></textarea>
+            </div>
+
+            <!-- Schritt 4: Sprache notieren -->
+            <div class="step-section">
+                <h3 class="step-title">
+                    <div class="step-number">4</div>
+                    Sprache notieren
+                </h3>
+                <p style="margin-bottom: 20px;">Wie spricht dein Idealkunde über seine Probleme?</p>
+                
+                <div class="quote-field">
+                    <label class="field-label">Problem-Zitat 1:</label>
+                    <input type="text" id="zitat1" placeholder="z.B. 'Ich habe einfach keine Zeit für Marketing...'">
+                </div>
+                
+                <div class="quote-field">
+                    <label class="field-label">Problem-Zitat 2:</label>
+                    <input type="text" id="zitat2" placeholder="z.B. 'Ich weiß nicht, wo ich anfangen soll...'">
+                </div>
+                
+                <div class="quote-field">
+                    <label class="field-label">Wunsch-Zitat:</label>
+                    <input type="text" id="zitat3" placeholder="z.B. 'Ich hätte gerne eine einfache Lösung, die funktioniert...'">
+                </div>
+            </div>
+
+            <!-- Praxis-Template -->
+            <div class="hint-box">
+                <div class="hint-content">
+                    <strong>Nutze dieses Profil als Referenz für dein Marketing.</strong> Alles, was du später schreibst, basiert auf diesen Antworten!
+                </div>
+            </div>
+
+            <div class="step-section">
+                <h3 style="color: #667eea; margin-bottom: 20px;">📋 Vollständiges Idealkunden-Profil</h3>
+                
+                <label class="field-label">Zusammenfassung (Elevator Pitch deines Avatars):</label>
+                <textarea id="zusammenfassung" placeholder="In 2-3 Sätzen: Wer ist dein Idealkunde?"></textarea>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="profilVollstaendig">
+                        <label for="profilVollstaendig">✅ Ich habe das Profil vollständig ausgefüllt</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Avatar Reality-Check -->
+            <div class="step-section reality-check">
+                <h3 style="color: #e53e3e; margin-bottom: 20px;">🔍 Avatar Reality-Check</h3>
+                <p style="margin-bottom: 20px;">Teste, wie spezifisch dein Avatar wirklich ist:</p>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <div style="display: flex; gap: 20px; align-items: center; width: 100%;">
+                            <span style="flex: 1;">Erkenne ich meinen Avatar auf einem Event?</span>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="radio" name="event" value="ja"> Ja
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="radio" name="event" value="nein"> Nein
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div style="display: flex; gap: 20px; align-items: center; width: 100%;">
+                            <span style="flex: 1;">Kenne ich seine Sprache wirklich?</span>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="radio" name="sprache" value="ja"> Ja
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="radio" name="sprache" value="nein"> Nein
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div style="display: flex; gap: 20px; align-items: center; width: 100%;">
+                            <span style="flex: 1;">Weiß ich, wo er sich informiert?</span>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="radio" name="information" value="ja"> Ja
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="radio" name="information" value="nein"> Nein
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div style="display: flex; gap: 20px; align-items: center; width: 100%;">
+                            <span style="flex: 1;">Kann ich seine größte Angst benennen?</span>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="radio" name="angst" value="ja"> Ja
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="radio" name="angst" value="nein"> Nein
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kundengewinnungs-Map -->
+            <div class="step-section">
+                <h3 class="step-title">
+                    <div class="step-number">5</div>
+                    Kundengewinnungs-Map
+                </h3>
+                <p style="margin-bottom: 20px;">Wo findest du deinen Idealkunden?</p>
+                
+                <label class="field-label">Online-Kanäle:</label>
+                <input type="text" id="online" placeholder="z.B. LinkedIn, Xing, Facebook-Gruppen, Foren...">
+                
+                <label class="field-label">Offline-Orte:</label>
+                <input type="text" id="offline" placeholder="z.B. Messen, Networking-Events, Conferences...">
+                
+                <label class="field-label">Medien/Magazine:</label>
+                <input type="text" id="medien" placeholder="z.B. Fachzeitschriften, Podcasts, YouTube-Channels...">
+                
+                <label class="field-label">Influencer/Experten:</label>
+                <input type="text" id="influencer" placeholder="z.B. Branchen-Experten, die dein Avatar folgt...">
+            </div>
+
+            <!-- Validierung -->
+            <div class="step-section validation-section">
+                <h3 style="color: #38a169; margin-bottom: 20px;">✅ Validierung</h3>
+                <p style="margin-bottom: 20px;">Teste deinen Avatar mit echten Personen. Erzähle 5 Menschen von deinem Idealkunden und notiere ihre Reaktionen:</p>
+                
+                <div class="quote-field">
+                    <label class="field-label">Person 1 Feedback:</label>
+                    <input type="text" id="feedback1" placeholder='"Das kenne ich..." oder "So jemanden kenne ich..."'>
+                </div>
+                
+                <div class="quote-field">
+                    <label class="field-label">Person 2 Feedback:</label>
+                    <input type="text" id="feedback2" placeholder='"Das kenne ich..." oder "So jemanden kenne ich..."'>
+                </div>
+                
+                <div class="quote-field">
+                    <label class="field-label">Person 3 Feedback:</label>
+                    <input type="text" id="feedback3" placeholder='"Das kenne ich..." oder "So jemanden kenne ich..."'>
+                </div>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="validiert">
+                        <label for="validiert">✅ Mindestens 4 von 5 haben bestätigt, dass sie jemanden kennen, der so ist</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Einfacher Abschluss-Text -->
+            <div style="text-align: center; margin-top: 40px; padding: 30px; background: #f7fafc; border-radius: 15px; border: 2px solid #e2e8f0;">
+                <p style="font-size: 1.2em; color: #2d3748; font-weight: 500;">
+                    🚀 <strong>Wir sehen uns bei der nächsten Lektion 1.3: Wertversprechen formulieren wieder</strong>
+                </p>
+            </div>
+
+            <!-- PDF Export Button -->
+            <div class="pdf-button-container">
+                <button onclick="downloadPDF()" class="pdf-export-btn">
+                    🖨️ Als PDF drucken/speichern
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- PDF Container Ende -->
+
+    <!-- PDF Export Scripts -->
+    <script>
+        function downloadPDF() {
+            // Button-Feedback während PDF erstellt wird
+            const button = document.querySelector('.pdf-export-btn');
+            const originalText = button.innerHTML;
+            button.innerHTML = '⏳ PDF wird vorbereitet...';
+            button.disabled = true;
+
+            // CSS für PDF temporär hinzufügen
+            const printStyle = document.createElement('style');
+            printStyle.textContent = `
+                @page {
+                    margin: 0.5in;
+                    size: A4;
+                }
+                @media print {
+                    body { 
+                        margin: 0 !important; 
+                        padding: 0 !important;
+                        background: white !important;
+                    }
+                    .container {
+                        box-shadow: none !important;
+                        margin: 0 !important;
+                        border-radius: 0 !important;
+                    }
+                    .pdf-button-container {
+                        display: none !important;
+                    }
+                    /* Eingabewerte in PDF sichtbar machen */
+                    input[type="text"], textarea {
+                        border: 1px solid #333 !important;
+                        background: white !important;
+                        color: #000 !important;
+                        font-size: 12pt !important;
+                        padding: 5px !important;
+                        margin-bottom: 10px !important;
+                    }
+                    /* Checkbox-Status anzeigen */
+                    input[type="checkbox"]:checked::after {
+                        content: "✓" !important;
+                        color: #000 !important;
+                        font-weight: bold !important;
+                    }
+                    /* Radio Button Status anzeigen */
+                    input[type="radio"]:checked::after {
+                        content: "●" !important;
+                        color: #000 !important;
+                        font-weight: bold !important;
+                    }
+                }
+            `;
+            document.head.appendChild(printStyle);
+            
+            // Kurz warten, dann Print Dialog öffnen
+            setTimeout(() => {
+                window.print();
+                
+                // Style nach dem Drucken wieder entfernen
+                setTimeout(() => {
+                    document.head.removeChild(printStyle);
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 1000);
+            }, 500);
+        }
+
+        // Automatisches Speichern der Eingaben im Browser (Local Storage)
+        function saveData() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.type === 'checkbox') {
+                    localStorage.setItem(input.id, input.checked);
+                } else if (input.type === 'radio') {
+                    if (input.checked) {
+                        localStorage.setItem(input.name, input.value);
+                    }
+                } else {
+                    localStorage.setItem(input.id, input.value);
+                }
+            });
+        }
+
+        function loadData() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.type === 'checkbox') {
+                    const saved = localStorage.getItem(input.id);
+                    if (saved !== null) {
+                        input.checked = saved === 'true';
+                    }
+                } else if (input.type === 'radio') {
+                    const saved = localStorage.getItem(input.name);
+                    if (saved === input.value) {
+                        input.checked = true;
+                    }
+                } else {
+                    const saved = localStorage.getItem(input.id);
+                    if (saved !== null) {
+                        input.value = saved;
+                    }
+                }
+            });
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const totalFields = document.querySelectorAll('input[type="text"], textarea').length;
+            const filledFields = Array.from(document.querySelectorAll('input[type="text"], textarea')).filter(field => field.value.trim() !== '').length;
+            const totalCheckboxes = document.querySelectorAll('input[type="checkbox"], input[type="radio"]').length;
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked, input[type="radio"]:checked').length;
+            
+            const totalItems = totalFields + totalCheckboxes;
+            const completedItems = filledFields + checkedBoxes;
+            const progress = (completedItems / totalItems) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            
+            const allInputs = document.querySelectorAll('input, textarea');
+            allInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    updateProgress();
+                    saveData();
+                });
+                input.addEventListener('change', () => {
+                    updateProgress();
+                    saveData();
+                });
+            });
+            
+            // Initial progress calculation
+            updateProgress();
+        });
+
+        function nextLesson() {
+            alert('Weiterleitung zur nächsten Lektion...');
+        }
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    </script>
