@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content-Strategie für Leads - Lektion 2.2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .pdf-button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .pdf-export-btn {
+            padding: 15px 30px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .pdf-export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 161, 105, 0.4);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .trigger-box {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid white;
+        }
+
+        .trigger-sentence {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .goal-text {
+            font-style: normal;
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .step-section {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .step-section:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.1);
+        }
+
+        .step-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .ziel-section { border-left: 5px solid #38a169; }
+        .pyramide-section { border-left: 5px solid #3182ce; }
+        .plan-section { border-left: 5px solid #805ad5; }
+        .tracking-section { border-left: 5px solid #d69e2e; }
+        .impuls-section { border-left: 5px solid #e53e3e; }
+
+        input[type="text"], textarea, input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus, textarea:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .field-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a5568;
+            display: block;
+        }
+
+        .inline-input {
+            display: inline-block;
+            width: 150px;
+            margin: 0 5px;
+        }
+
+        .pyramide-level {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pyramide-level h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .level-aufmerksamkeit { border-left: 5px solid #e53e3e; }
+        .level-vertrauen { border-left: 5px solid #3182ce; }
+        .level-conversion { border-left: 5px solid #38a169; }
+
+        .content-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .content-table th, .content-table td {
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .content-table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .content-table input {
+            margin-bottom: 0;
+            width: 100%;
+        }
+
+        .redaktionsplan-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .redaktionsplan-table th, .redaktionsplan-table td {
+            border: 1px solid #e2e8f0;
+            padding: 8px;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .redaktionsplan-table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .redaktionsplan-table input {
+            margin-bottom: 0;
+            width: 100%;
+            font-size: 0.9em;
+            padding: 8px;
+        }
+
+        .woche-label {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .final-section {
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            @page {
+                margin: 0.5in;
+                size: A4;
+            }
+            
+            body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+                line-height: 1.6 !important;
+                color: #333 !important;
+            }
+            
+            .container {
+                background: white !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                max-width: none !important;
+                width: 100% !important;
+            }
+            
+            .header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                color: white !important;
+                padding: 30px 20px !important;
+                text-align: center !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .step-section {
+                background: #f7fafc !important;
+                border: 2px solid #e2e8f0 !important;
+                border-radius: 15px !important;
+                padding: 20px !important;
+                margin-bottom: 20px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .ziel-section { border-left: 5px solid #38a169 !important; }
+            .pyramide-section { border-left: 5px solid #3182ce !important; }
+            .plan-section { border-left: 5px solid #805ad5 !important; }
+            .tracking-section { border-left: 5px solid #d69e2e !important; }
+            .impuls-section { border-left: 5px solid #e53e3e !important; }
+            
+            .trigger-box {
+                background: rgba(255,255,255,0.2) !important;
+                padding: 15px !important;
+                border-radius: 15px !important;
+                margin: 15px 0 !important;
+                border-left: 5px solid white !important;
+            }
+            
+            .step-number {
+                background: #667eea !important;
+                color: white !important;
+                border-radius: 50% !important;
+                width: 35px !important;
+                height: 35px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin-right: 15px !important;
+                font-weight: bold !important;
+            }
+            
+            .pyramide-level {
+                background: white !important;
+                border: 2px solid #e2e8f0 !important;
+                border-radius: 10px !important;
+                padding: 15px !important;
+                margin-bottom: 15px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .level-aufmerksamkeit { border-left: 5px solid #e53e3e !important; }
+            .level-vertrauen { border-left: 5px solid #3182ce !important; }
+            .level-conversion { border-left: 5px solid #38a169 !important; }
+            
+            .content-table, .redaktionsplan-table {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .content-table th, .content-table td,
+            .redaktionsplan-table th, .redaktionsplan-table td {
+                border: 1px solid #e2e8f0 !important;
+                padding: 5px !important;
+            }
+            
+            .final-section {
+                background: linear-gradient(135deg, #38a169 0%, #48bb78 100%) !important;
+                color: white !important;
+                padding: 20px !important;
+                border-radius: 15px !important;
+                text-align: center !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            /* Button verstecken */
+            .pdf-button-container {
+                display: none !important;
+            }
+            
+            /* Schrift und Farben */
+            .step-title {
+                color: #2d3748 !important;
+                font-weight: 600 !important;
+            }
+            
+            input, textarea {
+                border: 1px solid #333 !important;
+                background: white !important;
+                color: #000 !important;
+                font-size: 12pt !important;
+                padding: 5px !important;
+                margin-bottom: 10px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .inline-input {
+                width: 100%;
+                display: block;
+                margin: 5px 0;
+            }
+
+            .content-table, .redaktionsplan-table {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PDF Container Start -->
+    <div id="meinFormular" class="container">
+        <div class="header">
+            <h1>📝 Content-Strategie für Leads</h1>
+            <p>Lektion 2.2: Dein Lead-Content-System</p>
+            <p style="opacity: 0.8; font-size: 1em; margin-top: 5px;">Entwickle deinen 4-Wochen-Plan zur Lead-Generierung</p>
+            
+            <div class="trigger-box">
+                <div class="trigger-sentence">
+                    📝 PDF-Übung: Dein Lead-Content-System in 30 Minuten
+                </div>
+                <div class="goal-text">
+                    <strong>Ziel:</strong> Du entwickelst deinen persönlichen 4-Wochen-Plan zur Lead-Generierung – basierend auf der Content-Pyramide (60/30/10).
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Teil 1: Content-Ziel definieren -->
+            <div class="step-section ziel-section">
+                <h3 class="step-title">
+                    <div class="step-number">1</div>
+                    Dein Content-Ziel definieren
+                </h3>
+                <p style="margin-bottom: 20px; font-style: italic;">Was willst du in den nächsten 4 Wochen erreichen?</p>
+                
+                <div style="margin-bottom: 20px;">
+                    <span>• Ich will </span>
+                    <input type="number" id="leads-ziel" class="inline-input" placeholder="5" min="1">
+                    <span> neue Leads pro Woche gewinnen.</span>
+                </div>
+                
+                <label class="field-label">• Mein Haupt-Lead-Magnet ist:</label>
+                <input type="text" id="lead-magnet" placeholder="z.B. 5-Minuten-Positionierungs-Check">
+                
+                <label class="field-label">• Meine Hauptplattform ist:</label>
+                <input type="text" id="hauptplattform" placeholder="z.B. LinkedIn, Instagram, Facebook...">
+            </div>
+
+            <!-- Teil 2: 3-Ebenen-Pyramide -->
+            <div class="step-section pyramide-section">
+                <h3 class="step-title">
+                    <div class="step-number">2</div>
+                    Die 3-Ebenen-Pyramide für dein Thema ausfüllen
+                </h3>
+                
+                <!-- Ebene 1: Aufmerksamkeit -->
+                <div class="pyramide-level level-aufmerksamkeit">
+                    <h4>🔺 Ebene 1: Aufmerksamkeit (60%)</h4>
+                    <p style="margin-bottom: 15px; font-style: italic;">Was stoppt deine Zielgruppe beim Scrollen?</p>
+                    <p style="margin-bottom: 15px; font-size: 0.9em; color: #666;">• Quick-Wins, Mythen, Fehler, provokante Thesen, Behind-the-Scenes</p>
+                    
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>Thema</th>
+                                <th>Post-Idee</th>
+                                <th>Format (Text, Reel, Slide...)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" id="aufmerk-thema1" placeholder="z.B. Positionierungs-Mythos"></td>
+                                <td><input type="text" id="aufmerk-idee1" placeholder="z.B. Warum Nische = Gefängnis falsch ist"></td>
+                                <td><input type="text" id="aufmerk-format1" placeholder="z.B. Carousel"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" id="aufmerk-thema2" placeholder="Thema 2"></td>
+                                <td><input type="text" id="aufmerk-idee2" placeholder="Post-Idee 2"></td>
+                                <td><input type="text" id="aufmerk-format2" placeholder="Format 2"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" id="aufmerk-thema3" placeholder="Thema 3"></td>
+                                <td><input type="text" id="aufmerk-idee3" placeholder="Post-Idee 3"></td>
+                                <td><input type="text" id="aufmerk-format3" placeholder="Format 3"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Ebene 2: Vertrauen -->
+                <div class="pyramide-level level-vertrauen">
+                    <h4>🔻 Ebene 2: Vertrauen (30%)</h4>
+                    <p style="margin-bottom: 15px; font-style: italic;">Was baut Expertise und Glaubwürdigkeit auf?</p>
+                    <p style="margin-bottom: 15px; font-size: 0.9em; color: #666;">• Case Studies, Lessons Learned, Meinungen, Methoden</p>
+                    
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>Thema</th>
+                                <th>Post-Idee</th>
+                                <th>Format</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" id="vertrauen-thema1" placeholder="z.B. Case Study"></td>
+                                <td><input type="text" id="vertrauen-idee1" placeholder="z.B. Wie Kunde X in 30 Tagen..."></td>
+                                <td><input type="text" id="vertrauen-format1" placeholder="z.B. Story-Serie"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" id="vertrauen-thema2" placeholder="Thema 2"></td>
+                                <td><input type="text" id="vertrauen-idee2" placeholder="Post-Idee 2"></td>
+                                <td><input type="text" id="vertrauen-format2" placeholder="Format 2"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Ebene 3: Conversion -->
+                <div class="pyramide-level level-conversion">
+                    <h4>🎯 Ebene 3: Conversion (10%)</h4>
+                    <p style="margin-bottom: 15px; font-style: italic;">Wie bringst du die Leute zu deinem Lead-Magneten?</p>
+                    
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>CTA-Post</th>
+                                <th>Hook (Einleitung)</th>
+                                <th>Lead-Magnet-Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" id="conversion-post1" placeholder="z.B. Positionierungs-Check"></td>
+                                <td><input type="text" id="conversion-hook1" placeholder="z.B. Kennst du deine wahre Nische?"></td>
+                                <td><input type="text" id="conversion-link1" placeholder="Link zu deinem Lead-Magneten"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Teil 3: 4-Wochen-Redaktionsplan -->
+            <div class="step-section plan-section">
+                <h3 class="step-title">
+                    <div class="step-number">3</div>
+                    Dein 4-Wochen-Redaktionsplan
+                </h3>
+                
+                <table class="redaktionsplan-table">
+                    <thead>
+                        <tr>
+                            <th>Woche</th>
+                            <th>Mo (A)</th>
+                            <th>Di (V)</th>
+                            <th>Mi (A)</th>
+                            <th>Do (V)</th>
+                            <th>Fr (C)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="woche-label">1</td>
+                            <td><input type="text" id="w1-mo" placeholder="Aufmerksamkeit"></td>
+                            <td><input type="text" id="w1-di" placeholder="Vertrauen"></td>
+                            <td><input type="text" id="w1-mi" placeholder="Aufmerksamkeit"></td>
+                            <td><input type="text" id="w1-do" placeholder="Vertrauen"></td>
+                            <td><input type="text" id="w1-fr" placeholder="Conversion"></td>
+                        </tr>
+                        <tr>
+                            <td class="woche-label">2</td>
+                            <td><input type="text" id="w2-mo" placeholder="Aufmerksamkeit"></td>
+                            <td><input type="text" id="w2-di" placeholder="Vertrauen"></td>
+                            <td><input type="text" id="w2-mi" placeholder="Aufmerksamkeit"></td>
+                            <td><input type="text" id="w2-do" placeholder="Vertrauen"></td>
+                            <td><input type="text" id="w2-fr" placeholder="Conversion"></td>
+                        </tr>
+                        <tr>
+                            <td class="woche-label">3</td>
+                            <td><input type="text" id="w3-mo" placeholder="Aufmerksamkeit"></td>
+                            <td><input type="text" id="w3-di" placeholder="Vertrauen"></td>
+                            <td><input type="text" id="w3-mi" placeholder="Aufmerksamkeit"></td>
+                            <td><input type="text" id="w3-do" placeholder="Vertrauen"></td>
+                            <td><input type="text" id="w3-fr" placeholder="Conversion"></td>
+                        </tr>
+                        <tr>
+                            <td class="woche-label">4</td>
+                            <td><input type="text" id="w4-mo" placeholder="Aufmerksamkeit"></td>
+                            <td><input type="text" id="w4-di" placeholder="Vertrauen"></td>
+                            <td><input type="text" id="w4-mi" placeholder="Aufmerksamkeit"></td>
+                            <td><input type="text" id="w4-do" placeholder="Vertrauen"></td>
+                            <td><input type="text" id="w4-fr" placeholder="Conversion"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Teil 4: Tracking-Template -->
+            <div class="step-section tracking-section">
+                <h3 class="step-title">
+                    <div class="step-number">4</div>
+                    Tracking-Template (Wöchentlich ausfüllen)
+                </h3>
+                
+                <label class="field-label">• Anzahl Posts veröffentlicht:</label>
+                <input type="number" id="posts-anzahl" placeholder="z.B. 5" min="0">
+                
+                <label class="field-label">• Lead-Magnet Downloads:</label>
+                <input type="number" id="downloads" placeholder="z.B. 12" min="0">
+                
+                <label class="field-label">• Kommentare mit echten Fragen:</label>
+                <input type="number" id="kommentare" placeholder="z.B. 8" min="0">
+                
+                <label class="field-label">• Beste Performance-Post:</label>
+                <input type="text" id="best-post" placeholder="Welcher Post hatte die beste Performance?">
+                
+                <label class="field-label">• Erkenntnis für nächste Woche:</label>
+                <textarea id="erkenntnis" placeholder="Was hast du gelernt? Was willst du nächste Woche anders machen?"></textarea>
+            </div>
+
+            <!-- Letzter Impuls -->
+            <div class="step-section impuls-section">
+                <h3 class="step-title">✍️ Letzter Impuls</h3>
+                
+                <label class="field-label">Was ist dein größtes Content-Aha aus dieser Lektion?</label>
+                <textarea id="content-aha" placeholder="Schreibe hier deine wichtigste Erkenntnis aus dieser Lektion..."></textarea>
+            </div>
+
+            <!-- Abschluss -->
+            <div class="final-section">
+                <h3 style="margin-bottom: 15px;">🚀 Dein Content-System steht!</h3>
+                <p style="margin-bottom: 20px;">Du hast jetzt einen klaren 4-Wochen-Plan für Lead-generierenden Content.</p>
+                <p><strong>Jetzt geht's an die Umsetzung!</strong></p>
+            </div>
+
+            <!-- Weiter-Text -->
+            <div style="background: #e6fffa; border: 2px solid #38b2ac; border-radius: 15px; padding: 25px; margin: 30px 0; text-align: center;">
+                <p style="font-size: 1.2em; color: #2c7a7b; font-weight: 600;">
+                    🚀 Weiter geht's in Lektion 2.3: Landing Pages die konvertieren – wir sehen uns drüben!
+                </p>
+            </div>
+
+            <!-- PDF Export Button -->
+            <div class="pdf-button-container">
+                <button onclick="downloadPDF()" class="pdf-export-btn">
+                    🖨️ Als PDF drucken/speichern
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- PDF Container Ende -->
+
+    <!-- PDF Export Scripts -->
+    <script>
+        function downloadPDF() {
+            // Button-Feedback während PDF erstellt wird
+            const button = document.querySelector('.pdf-export-btn');
+            const originalText = button.innerHTML;
+            button.innerHTML = '⏳ PDF wird vorbereitet...';
+            button.disabled = true;
+
+            // CSS für PDF temporär hinzufügen
+            const printStyle = document.createElement('style');
+            printStyle.textContent = `
+                @page {
+                    margin: 0.5in;
+                    size: A4;
+                }
+                @media print {
+                    body { 
+                        margin: 0 !important; 
+                        padding: 0 !important;
+                        background: white !important;
+                    }
+                    .container {
+                        box-shadow: none !important;
+                        margin: 0 !important;
+                        border-radius: 0 !important;
+                    }
+                    .pdf-button-container {
+                        display: none !important;
+                    }
+                    /* Eingabewerte in PDF sichtbar machen */
+                    input[type="text"], input[type="number"], textarea {
+                        border: 1px solid #333 !important;
+                        background: white !important;
+                        color: #000 !important;
+                        font-size: 12pt !important;
+                        padding: 5px !important;
+                        margin-bottom: 10px !important;
+                    }
+                }
+            `;
+            document.head.appendChild(printStyle);
+            
+            // Kurz warten, dann Print Dialog öffnen
+            setTimeout(() => {
+                window.print();
+                
+                // Style nach dem Drucken wieder entfernen
+                setTimeout(() => {
+                    document.head.removeChild(printStyle);
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 1000);
+            }, 500);
+        }
+
+        // Automatisches Speichern der Eingaben im Browser (Local Storage)
+        function saveData() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                localStorage.setItem(input.id, input.value);
+            });
+        }
+
+        function loadData() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                const saved = localStorage.getItem(input.id);
+                if (saved !== null) {
+                    input.value = saved;
+                }
+            });
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const totalFields = document.querySelectorAll('input[type="text"], input[type="number"], textarea').length;
+            const filledFields = Array.from(document.querySelectorAll('input[type="text"], input[type="number"], textarea')).filter(field => field.value.trim() !== '').length;
+            
+            const progress = (filledFields / totalFields) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            
+            const allInputs = document.querySelectorAll('input, textarea');
+            allInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    updateProgress();
+                    saveData();
+                });
+                input.addEventListener('change', () => {
+                    updateProgress();
+                    saveData();
+                });
+            });
+            
+            // Initial progress calculation
+            updateProgress();
+        });
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    </script>
+</body>
+</html>
