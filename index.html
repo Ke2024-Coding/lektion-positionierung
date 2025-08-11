@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silent Authority Framework - Positionierungs-Werkstatt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 4px;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #4285f4;
+            border-radius: 12px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .exercise-intro {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .exercise-intro h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step {
+            background: #f8fffe;
+            border-left: 4px solid #4CAF50;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .step h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .step .step-description {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .questions {
+            margin: 15px 0;
+        }
+
+        .questions ul {
+            padding-left: 20px;
+            color: #555;
+        }
+
+        .questions li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin: 20px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4285f4;
+        }
+
+        .reality-check {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .reality-check h4 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-top: 4px;
+            transform: scale(1.2);
+        }
+
+        .checkbox-item label {
+            font-weight: normal;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        .bonus-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .bonus-section h4 {
+            margin-bottom: 15px;
+        }
+
+        .print-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .print-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .print-button:hover {
+            background: #45a049;
+        }
+
+        .print-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+                background: white;
+            }
+            .print-section {
+                display: none;
+            }
+        }
+
+        .tip {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tip strong {
+            color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Silent Authority Framework</h1>
+            <p class="subtitle">Deine leise, aber unüberhörbare Positionierung</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="exercise-intro">
+                <h2>🎯 Übung: Silent Authority Framework</h2>
+                <p><strong>Ziel:</strong> Finde deine Position, die Kunden anzieht, ohne dass du laut schreien oder dich verstellen musst – und die sofort zeigt, warum du der/die Richtige bist.</p>
+            </div>
+
+            <form id="worksheetForm">
+                <div class="step">
+                    <h3>Schritt 1 – Dein „Signature Impact" statt „Superkraft"</h3>
+                    <p class="step-description">(Was nur du auf genau deine Art bewirkst)</p>
+                    
+                    <div class="questions">
+                        <p><strong>Fragen zur Reflexion:</strong></p>
+                        <ul>
+                            <li>Welche Art von Ergebnis bleibt bei deinen Kunden lange nach der Zusammenarbeit bestehen?</li>
+                            <li>Welche Veränderung oder Erfahrung gibt es <strong>nur</strong>, wenn man mit dir arbeitet?</li>
+                            <li>Welche 1–2 Dinge sagen Kunden immer wieder über dich?</li>
+                            <li>Wo hast du eine ungewöhnliche Kombination aus Fähigkeiten, die so kaum jemand verbindet?</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signatureImpact">✍ Mein Signature Impact:</label>
+                        <textarea id="signatureImpact" name="signatureImpact" placeholder="Beschreibe hier deinen einzigartigen Impact..."></textarea>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h3>Schritt 2 – Unverhandelbare Marktchance statt „Marktbedarf"</h3>
+                    <p class="step-description">(Der Punkt, an dem dein Impact auf echten Bedarf trifft)</p>
+                    
+                    <div class="questions">
+                        <p><strong>Fragen zur Reflexion:</strong></p>
+                        <ul>
+                            <li>Welche Veränderungen zwingen deine Zielgruppe aktuell, umzudenken?</li>
+                            <li>Wo verlieren sie gerade messbar Zeit, Geld oder Kunden?</li>
+                            <li>Für welche Lösung wären sie bereit, sofort zu investieren?</li>
+                            <li>Welches Problem sehen sie täglich – und akzeptieren es trotzdem als „normal"?</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="marketChance">✍ Meine unverhandelbare Marktchance:</label>
+                        <textarea id="marketChance" name="marketChance" placeholder="Beschreibe hier die Marktchance..."></textarea>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h3>Schritt 3 – Bewegende Motivation statt „Leidenschaft"</h3>
+                    <p class="step-description">(Warum du genau dieses Spielfeld wählst – und dranbleibst)</p>
+                    
+                    <div class="questions">
+                        <p><strong>Fragen zur Reflexion:</strong></p>
+                        <ul>
+                            <li>Welche Art von Arbeit lässt dich Zeit vergessen?</li>
+                            <li>Für welche Art von Menschen willst du ein Game-Changer sein?</li>
+                            <li>Welcher persönliche Grund steckt dahinter, dass du nicht aufhörst?</li>
+                            <li>Wofür willst du in 5 Jahren in deiner Branche bekannt sein?</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="motivation">✍ Meine bewegende Motivation:</label>
+                        <textarea id="motivation" name="motivation" placeholder="Beschreibe hier deine Motivation..."></textarea>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h3>Schritt 4 – Der „Quiet Authority Schnittpunkt"</h3>
+                    <p class="step-description">Verbinde <strong>Signature Impact</strong> + <strong>Unverhandelbare Marktchance</strong> + <strong>Bewegende Motivation</strong>. → Das ist dein <strong>Sweet Spot</strong>, der dich relevant und einzigartig macht.</p>
+
+                    <div class="form-group">
+                        <label for="sweetSpot">✍ Mein Sweet Spot:</label>
+                        <textarea id="sweetSpot" name="sweetSpot" placeholder="Verbinde hier deine drei Elemente zu deinem Sweet Spot..."></textarea>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h3>Schritt 5 – Dein Quiet Authority Statement</h3>
+                    <p class="step-description">(Deine Kunden sollen sofort denken: „Das bin ich – das brauche ich")</p>
+                    
+                    <div class="tip">
+                        <strong>Formel:</strong><br>
+                        „Ich helfe [ZIELGRUPPE] dabei, [ERGEBNIS] zu erreichen – auf eine Art, die [BESONDERE WERTIGKEIT/DIFFERENZIERUNG] bietet."
+                        
+                        <br><br><strong>Beispiele:</strong>
+                        <ul>
+                            <li>„Ich helfe introvertierten Führungskräften, sichtbar zu werden – ohne sich zu verbiegen oder laut zu sein."</li>
+                            <li>„Ich unterstütze Webdesigner:innen, die falschen Anfragen zu stoppen – und Kunden zu gewinnen, die ihre Arbeit wirklich wertschätzen."</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="authorityStatement">✍ Mein Quiet Authority Statement:</label>
+                        <textarea id="authorityStatement" name="authorityStatement" placeholder="Formuliere hier dein Statement..."></textarea>
+                    </div>
+                </div>
+
+                <div class="reality-check">
+                    <h4>Schritt 6 – Reality Check für Fortgeschrittene</h4>
+                    <p><em>(Damit dein Statement nicht nur schön klingt, sondern wirkt)</em></p>
+                    
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="relevanz" name="realityCheck">
+                            <label for="relevanz"><strong>Relevanz:</strong> Sprichst du damit ein Problem an, das gerade brennt?</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="unterscheidung" name="realityCheck">
+                            <label for="unterscheidung"><strong>Unterscheidung:</strong> Kann deine Zielgruppe dich klar von anderen trennen?</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="verstaendlichkeit" name="realityCheck">
+                            <label for="verstaendlichkeit"><strong>Verständlichkeit:</strong> Könnte es ein 12-Jähriger verstehen?</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="verbindlichkeit" name="realityCheck">
+                            <label for="verbindlichkeit"><strong>Verbindlichkeit:</strong> Würdest du dich trauen, es vor 100 Leuten zu sagen?</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h3>Schritt 7 – Live Proof Sprint</h3>
+                    <p>Teste dein Statement bei 3–5 Menschen aus deiner Zielgruppe:</p>
+                    <ul>
+                        <li>Reagieren sie mit <em>„Erzähl mir mehr"</em>? → Treffer</li>
+                        <li>Reagieren sie neutral oder verwirrt? → Schärfen</li>
+                    </ul>
+
+                    <div class="form-group">
+                        <label for="liveProof">✍ Erkenntnisse aus dem Live Proof Sprint:</label>
+                        <textarea id="liveProof" name="liveProof" placeholder="Dokumentiere hier die Reaktionen und deine Erkenntnisse..."></textarea>
+                    </div>
+                </div>
+
+                <div class="bonus-section">
+                    <h4>💡 Bonus für leise Selbstständige:</h4>
+                    <p>Notiere dir <strong>3 Story-Fragmente</strong> aus deinem Alltag oder deiner Arbeit, die dein Statement unterstreichen. Diese kannst du später für LinkedIn-Posts, Vorträge oder Gespräche nutzen.</p>
+                    
+                    <div class="form-group">
+                        <label for="storyFragments" style="color: white;">✍ Meine 3 Story-Fragmente:</label>
+                        <textarea id="storyFragments" name="storyFragments" placeholder="1. Story-Fragment:&#10;&#10;2. Story-Fragment:&#10;&#10;3. Story-Fragment:"></textarea>
+                    </div>
+                </div>
+            </form>
+
+            <div class="print-section">
+                <h3>Zusammenfassung</h3>
+                <p>Du hast das Silent Authority Framework erfolgreich durchgearbeitet!</p>
+                <button class="print-button" id="printButton">
+                    🖨️ Als PDF drucken/speichern
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('worksheetForm');
+        const progressBar = document.getElementById('progressBar');
+        const printButton = document.getElementById('printButton');
+        
+        const requiredFields = [
+            'signatureImpact',
+            'marketChance', 
+            'motivation',
+            'sweetSpot',
+            'authorityStatement',
+            'liveProof',
+            'storyFragments'
+        ];
+
+        function updateProgress() {
+            let filledFields = 0;
+            let totalProgress = 0;
+
+            // Check text fields
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field && field.value.trim().length > 0) {
+                    filledFields++;
+                }
+            });
+
+            // Check reality check checkboxes
+            const checkboxes = document.querySelectorAll('input[name="realityCheck"]:checked');
+            const checkboxProgress = Math.min(checkboxes.length / 4, 1);
+            
+            // Calculate total progress (text fields + checkbox progress)
+            const textProgress = filledFields / requiredFields.length;
+            totalProgress = (textProgress * 0.8) + (checkboxProgress * 0.2);
+            
+            progressBar.style.width = (totalProgress * 100) + '%';
+        }
+
+        // Add event listeners to all form fields
+        requiredFields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.addEventListener('input', updateProgress);
+            }
+        });
+
+        // Add event listeners to checkboxes
+        document.querySelectorAll('input[name="realityCheck"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateProgress);
+        });
+
+        printButton.addEventListener('click', function() {
+            window.print();
+        });
+
+        // Initial progress check
+        updateProgress();
+    </script>
+</body>
+</html>
